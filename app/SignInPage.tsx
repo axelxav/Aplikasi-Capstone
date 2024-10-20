@@ -37,6 +37,11 @@ const SignInPage = () => {
     router.push("./SignUpPage");
   };
 
+  const handleSignIn = () => {
+    console.log("Sign In Button Pressed");
+    router.push("./(tabs)/HomePage");
+  };
+
   return (
     <SafeAreaView style={st.container}>
       <View style={st.imageContainer}>
@@ -58,7 +63,7 @@ const SignInPage = () => {
           secureTextEntry={true}
           style={st.userInput}
         />
-        <Pressable style={st.buttonSignIn}>
+        <Pressable style={st.buttonSignIn} onPress={handleSignIn}>
           <Text style={st.buttonText}>Sign In</Text>
         </Pressable>
         <Pressable onPress={handleSignUp}>
