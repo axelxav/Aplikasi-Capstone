@@ -2,6 +2,7 @@ import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 import React from "react";
 import SearchHeader from "@/components/SearchHeader";
 import LocationOpt from "@/components/LocationOpt";
+import OtsCode from "@/components/OtsCode";
 
 const HomePage = () => {
   return (
@@ -10,7 +11,9 @@ const HomePage = () => {
         <SearchHeader />
         <LocationOpt />
       </View>
-      <View></View>
+      <View>
+        <OtsCode />
+      </View>
     </SafeAreaView>
   );
 };

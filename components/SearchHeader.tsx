@@ -1,31 +1,17 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useCustomFonts } from "@/hooks/useCustomFonts";
 
 const SearchHeader = () => {
-  const [fontsLoaded] = useFonts({
-    "Nunito-Regular": require("../assets/fonts/Nunito-Regular.ttf"),
-    "Nunito-Bold": require("../assets/fonts/Nunito-Bold.ttf"),
-  });
-
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  }, []);
+  const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 
   if (!fontsLoaded) {
-    return undefined;
-  } else {
-    SplashScreen.hideAsync();
+    return null;
   }
 
   return (
-    <View style={{backgroundColor: "#76ECFC" }}>
+    <View style={{ backgroundColor: "#76ECFC" }} onLayout={onLayoutRootView}>
       <View style={st.container}>
         <Ionicons name="search" size={20} color="gray" style={st.searchIcon} />
         <TextInput
@@ -63,6 +49,6 @@ const st = StyleSheet.create({
   cancelText: {
     fontFamily: "Nunito-Bold",
     fontSize: 15,
-  }
+  },
 });
 export default SearchHeader;

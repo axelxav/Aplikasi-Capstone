@@ -1,31 +1,18 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { useCustomFonts } from "@/hooks/useCustomFonts";
 
 const LocationOpt = () => {
-  const [fontsLoaded] = useFonts({
-    "Nunito-Regular": require("../assets/fonts/Nunito-Regular.ttf"),
-    "Nunito-Bold": require("../assets/fonts/Nunito-Bold.ttf"),
-  });
-
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  }, []);
+  const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 
   if (!fontsLoaded) {
-    return undefined;
-  } else {
-    SplashScreen.hideAsync();
+    return null
   }
 
   return (
-    <View style={st.container}>
+    <View style={st.container} onLayout={onLayoutRootView}>
       <View style={st.locationPos}>
         <Ionicons name="location-sharp" size={20} color="gray" style={st.locationIcon}/>
         <Text style={st.locationText}>Sleman, Special Region of Yogyakarta</Text>

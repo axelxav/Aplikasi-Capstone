@@ -11,32 +11,22 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { router } from "expo-router";
+import { useCustomFonts } from "@/hooks/useCustomFonts";
 
 const UserPage = () => {
-  const [fontsLoaded] = useFonts({
-    "Nunito-Regular": require("../../assets/fonts/Nunito-Regular.ttf"),
-    "Nunito-Bold": require("../../assets/fonts/Nunito-Bold.ttf"),
-  });
-
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  }, []);
-
+  const { fontsLoaded, onLayoutRootView } = useCustomFonts();
+  
   if (!fontsLoaded) {
-    return undefined;
-  } else {
-    SplashScreen.hideAsync();
+    return null;
   }
+  
   const handleSignOut = () => {
     console.log("Sign Out Button Pressed");
     router.push("../SignInPage");
-  }
+  };
 
   return (
-    <SafeAreaView style={st.container}>
+    <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
       <View style={st.headerContainer}>
         <View style={{ flex: 1, alignItems: "center" }}>
           <Image source={require("../../assets/images/account.png")} />
