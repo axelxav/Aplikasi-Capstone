@@ -8,14 +8,21 @@ const LocationOpt = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 
   if (!fontsLoaded) {
-    return null
+    return null;
   }
 
   return (
     <View style={st.container} onLayout={onLayoutRootView}>
       <View style={st.locationPos}>
-        <Ionicons name="location-sharp" size={20} color="gray" style={st.locationIcon}/>
-        <Text style={st.locationText}>Sleman, Special Region of Yogyakarta</Text>
+        <Ionicons
+          name="location-sharp"
+          size={20}
+          color="gray"
+          style={st.locationIcon}
+        />
+        <Text style={st.locationText}>
+          Sleman, Special Region of Yogyakarta
+        </Text>
       </View>
       <View>
         <Pressable>
