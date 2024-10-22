@@ -3,7 +3,6 @@ import { SafeAreaView } from "react-native";
 
 const RootLayout = () => {
   return (
-    <SafeAreaView style={{flex: 1}}>
       <Stack>
         <Stack.Screen
           name="index"
@@ -30,7 +29,6 @@ const RootLayout = () => {
           }}
         />
       </Stack>
-    </SafeAreaView>
   );
 };
 

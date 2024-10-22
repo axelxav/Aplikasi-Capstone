@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const TabsLayout = () => {
   const [fontsLoaded] = useFonts({
@@ -21,44 +22,60 @@ const TabsLayout = () => {
   } else {
     SplashScreen.hideAsync();
   }
-  
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Tabs>
+      <Tabs
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName = "default-icon"; // Provide a default value
+
+            // Set different icons for each tab
+            switch (route.name) {
+              case "HomePage":
+                iconName = focused ? "home" : "home-outline";
+                break;
+              case "ActivityPage":
+                iconName = focused ? "list" : "list-outline";
+                break;
+              case "UserPage":
+                iconName = focused ? "person" : "person-outline";
+                break;
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: "#095E69",
+          tabBarInactiveTintColor: "gray",
+          tabBarStyle: { backgroundColor: "#fff" },
+        })}
+      >
         <Tabs.Screen
           name="HomePage"
           options={{
             headerTitle: "Home",
-            headerStyle: {
-              backgroundColor: "#76ECFC", // Set the header background color to #76ECFC
-            },
-            headerTitleStyle: {
-              fontFamily: "Nunito-Bold", // Change this to your desired font family
-            },
+            title: "Home",
+            headerStyle: { backgroundColor: "#76ECFC" },
+            headerTitleStyle: { fontFamily: "Nunito-Bold" },
+            // headerShown: false,
           }}
         />
         <Tabs.Screen
           name="ActivityPage"
           options={{
-            headerTitle: "Activity Page",
-            headerStyle: {
-              backgroundColor: "#76ECFC", // Set the header background color to #76ECFC
-            },
-            headerTitleStyle: {
-              fontFamily: "Nunito-Bold", // Change this to your desired font family
-            },
+            headerTitle: "Activity",
+            title: "Activity",
+            headerStyle: { backgroundColor: "#76ECFC" },
+            headerTitleStyle: { fontFamily: "Nunito-Bold" },
           }}
         />
         <Tabs.Screen
           name="UserPage"
           options={{
             headerTitle: "My Account",
-            headerStyle: {
-              backgroundColor: "#76ECFC", // Set the header background color to #76ECFC
-            },
-            headerTitleStyle: {
-              fontFamily: "Nunito-Bold", // Change this to your desired font family
-            },
+            title: "My Account",
+            headerStyle: { backgroundColor: "#76ECFC" },
+            headerTitleStyle: { fontFamily: "Nunito-Bold" },
           }}
         />
       </Tabs>

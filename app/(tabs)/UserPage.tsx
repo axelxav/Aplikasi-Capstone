@@ -10,6 +10,7 @@ import React from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { router } from "expo-router";
 
 const UserPage = () => {
   const [fontsLoaded] = useFonts({
@@ -28,6 +29,10 @@ const UserPage = () => {
     return undefined;
   } else {
     SplashScreen.hideAsync();
+  }
+  const handleSignOut = () => {
+    console.log("Sign Out Button Pressed");
+    router.push("../SignInPage");
   }
 
   return (
@@ -57,7 +62,7 @@ const UserPage = () => {
         <Pressable style={st.bodyButton}>
           <Text style={st.bodyText}>Activity</Text>
         </Pressable>
-        <Pressable style={st.bodyButtonSignOut}>
+        <Pressable style={st.bodyButtonSignOut} onPress={handleSignOut}>
           <Text style={st.bodyText}>Sign Out</Text>
         </Pressable>
       </View>
@@ -84,7 +89,7 @@ const st = StyleSheet.create({
   },
   userDetail: {
     fontFamily: "Nunito-Regular",
-    fontSize: 15,
+    fontSize: 12,
   },
   imageStyle: {
     width: 50,
@@ -114,7 +119,7 @@ const st = StyleSheet.create({
   },
   bodyText: {
     fontFamily: "Nunito-Bold",
-    fontSize: 20,
+    fontSize: 18,
     color: "white",
   },
   bodyButton: {

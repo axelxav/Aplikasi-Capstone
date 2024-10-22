@@ -40,7 +40,10 @@ const SignUpPage = () => {
   return (
     <SafeAreaView style={st.container}>
       <View style={st.headerContainer}>
-        <Text style={st.headerText}>Create an Account</Text>
+        <View style={{ flexDirection: "column" }}>
+          <Text style={st.headerText}>Create an</Text>
+          <Text style={st.headerText}>Account</Text>
+        </View>
         <Image
           source={require("../assets/images/account.png")}
           style={st.imageStyle}
@@ -74,12 +77,11 @@ const SignUpPage = () => {
 const st = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
   },
   headerContainer: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
   },
   formContainer: {
@@ -93,11 +95,11 @@ const st = StyleSheet.create({
   imageStyle: {
     width: 70,
     height: 70,
-    marginLeft: 50,
+    left: 20,
   },
   headerText: {
     fontFamily: "Nunito-Bold",
-    fontSize: 28,
+    fontSize: 24,
   },
   textStyle: {
     fontFamily: "Nunito-Bold",

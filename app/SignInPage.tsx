@@ -80,6 +80,8 @@ const SignInPage = () => {
 const st = StyleSheet.create({
   container: {
     flex: 3,
+    paddingTop: 30,
+
   },
   imageContainer: {
     flex: 3,
