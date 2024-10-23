@@ -99,6 +99,7 @@ const st = StyleSheet.create({
     width: 70,
     height: 70,
     left: 20,
+    borderRadius: 35,
   },
   headerText: {
     fontFamily: "Nunito-Bold",

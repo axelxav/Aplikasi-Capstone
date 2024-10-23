@@ -45,7 +45,7 @@ const UserPage = () => {
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
       <View style={st.headerContainer}>
         <View style={{ flex: 1, alignItems: "center" }}>
-          <Image source={require("../../assets/images/account.png")} />
+          <Image source={require("../../assets/images/account.png")} style={st.profileImage} />
         </View>
         <View style={{ flex: 2 }}>
           <Text style={st.userName}>Axel Xaverius</Text>
@@ -104,6 +104,13 @@ const st = StyleSheet.create({
   imageStyle: {
     width: 50,
     height: 50,
+  },
+
+  profileImage: {
+    width: 70,
+    height: 70,
+    // circle style
+    borderRadius: 35,
   },
   qrButton: {
     width: 70,
