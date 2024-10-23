@@ -1,13 +1,23 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
+import QrCodeModal from "./QrCodeModal";
 
 const OtsCode = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
+  const [isModalVisible, setModalVisible] = useState(false);
 
   if (!fontsLoaded) {
     return null;
   }
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
 
   return (
     <View style={st.container} onLayout={onLayoutRootView}>
@@ -19,13 +29,18 @@ const OtsCode = () => {
         </Text>
       </View>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Pressable>
+        <Pressable onPress={handleOpenModal}>
           <Image
             source={require("../assets/images/userQr.png")}
             style={st.imageStyle}
           />
         </Pressable>
       </View>
+      <QrCodeModal
+        visible={isModalVisible}
+        onClose={handleCloseModal}
+        value="axel62817462655"
+      />
     </View>
   );
 };

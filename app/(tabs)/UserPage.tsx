@@ -7,19 +7,27 @@ import {
   Pressable,
 } from "react-native";
 import React from "react";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
+import QrCodeModal from "@/components/QrCodeModal";
 
 const UserPage = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
-  
+  const [isModalVisible, setModalVisible] = useState(false);
+
   if (!fontsLoaded) {
     return null;
   }
-  
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
   const handleSignOut = () => {
     console.log("Sign Out Button Pressed");
     router.replace("../SignInPage");
@@ -37,7 +45,7 @@ const UserPage = () => {
           <Text style={st.userDetail}>62817123456</Text>
         </View>
         <View style={{ flex: 1, alignItems: "center" }}>
-          <Pressable style={st.qrButton}>
+          <Pressable style={st.qrButton} onPress={handleOpenModal}>
             <Image
               source={require("../../assets/images/userQr.png")}
               style={st.imageStyle}
@@ -56,7 +64,11 @@ const UserPage = () => {
           <Text style={st.bodyText}>Sign Out</Text>
         </Pressable>
       </View>
-      <View></View>
+      <QrCodeModal
+        visible={isModalVisible}
+        onClose={handleCloseModal}
+        value="axel62817462655"
+      />
     </SafeAreaView>
   );
 };
