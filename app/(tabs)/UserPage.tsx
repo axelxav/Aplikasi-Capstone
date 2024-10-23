@@ -33,6 +33,14 @@ const UserPage = () => {
     router.replace("../SignInPage");
   };
 
+  const handleActivity = () => {
+    router.push("../ActivityPage");
+  };
+
+  const handleEditProfile = () => {
+    router.push("../EditPage");
+  }
+
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
       <View style={st.headerContainer}>
@@ -54,10 +62,10 @@ const UserPage = () => {
         </View>
       </View>
       <View style={st.bodyContainer}>
-        <Pressable style={st.bodyButton}>
+        <Pressable style={st.bodyButton} onPress={handleEditProfile}>
           <Text style={st.bodyText}>Edit Profile</Text>
         </Pressable>
-        <Pressable style={st.bodyButton}>
+        <Pressable style={st.bodyButton} onPress={handleActivity}>
           <Text style={st.bodyText}>Activity</Text>
         </Pressable>
         <Pressable style={st.bodyButtonSignOut} onPress={handleSignOut}>
