@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 
@@ -19,10 +19,12 @@ const OtsCode = () => {
         </Text>
       </View>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Image
-          source={require("../assets/images/userQr.png")}
-          style={st.imageStyle}
-        />
+        <Pressable>
+          <Image
+            source={require("../assets/images/userQr.png")}
+            style={st.imageStyle}
+          />
+        </Pressable>
       </View>
     </View>
   );

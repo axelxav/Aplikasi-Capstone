@@ -20,7 +20,7 @@ const SignUpPage = () => {
 
   const handleSignIn = () => {
     console.log("Sign In Button Pressed");
-    router.push("./SignInPage");
+    router.replace("./SignInPage");
   };
 
   return (

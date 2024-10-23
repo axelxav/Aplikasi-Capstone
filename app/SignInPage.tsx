@@ -21,12 +21,12 @@ const SignInPage = () => {
 
   const handleSignUp = () => {
     console.log("Sign Up Button Pressed");
-    router.push("./SignUpPage");
+    router.replace("./SignUpPage");
   };
 
   const handleSignIn = () => {
     console.log("Sign In Button Pressed");
-    router.push("./(tabs)/HomePage");
+    router.replace("./(tabs)/HomePage");
   };
 
   return (

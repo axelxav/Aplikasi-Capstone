@@ -22,7 +22,7 @@ const UserPage = () => {
   
   const handleSignOut = () => {
     console.log("Sign Out Button Pressed");
-    router.push("../SignInPage");
+    router.replace("../SignInPage");
   };
 
   return (
