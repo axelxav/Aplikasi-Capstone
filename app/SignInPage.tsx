@@ -6,11 +6,13 @@ import {
   Pressable,
   StyleSheet,
   Image,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
 import React from "react";
-import { useEffect } from "react";
-import { router } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
+import { router } from "expo-router";
 
 const SignInPage = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
@@ -31,66 +33,75 @@ const SignInPage = () => {
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
-      <View style={st.imageContainer}>
-        <Image
-          source={require("../assets/images/loginBg.png")}
-          style={st.imageStyle}
-        />
-      </View>
-      <View style={st.formContainer}>
-        {/* <Text style={st.headerText}>Please Sign In to Continue</Text> */}
-        <TextInput
-          placeholder="Enter your Username"
-          placeholderTextColor={"grey"}
-          style={st.userInput}
-        />
-        <TextInput
-          placeholder="Enter your Password"
-          placeholderTextColor={"grey"}
-          secureTextEntry={true}
-          style={st.userInput}
-        />
-        <Pressable style={st.buttonSignIn} onPress={handleSignIn}>
-          <Text style={st.buttonText}>Sign In</Text>
-        </Pressable>
-        <Pressable onPress={handleSignUp}>
-          <Text style={st.signupText}>
-            Don't have an account?{" "}
-            <Text style={st.signupButton}> Sign Up!</Text>
-          </Text>
-        </Pressable>
-      </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "android" ? "padding" : "height"}
+      >
+        <View style={st.innerContainer}>
+          <ScrollView
+            contentContainerStyle={st.scrollContainer}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={st.imageContainer}>
+              <Image
+                source={require("../assets/images/loginBg.png")}
+                style={st.imageStyle}
+              />
+            </View>
+            <View style={st.formContainer}>
+              <TextInput
+                placeholder="Enter your Username"
+                placeholderTextColor={"grey"}
+                style={st.userInput}
+              />
+              <TextInput
+                placeholder="Enter your Password"
+                placeholderTextColor={"grey"}
+                secureTextEntry={true}
+                style={st.userInput}
+              />
+              <Pressable style={st.buttonSignIn} onPress={handleSignIn}>
+                <Text style={st.buttonText}>Sign In</Text>
+              </Pressable>
+              <Pressable onPress={handleSignUp}>
+                <Text style={st.signupText}>
+                  Don't have an account?{" "}
+                  <Text style={st.signupButton}> Sign Up!</Text>
+                </Text>
+              </Pressable>
+            </View>
+          </ScrollView>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
 const st = StyleSheet.create({
   container: {
-    flex: 3,
-    paddingTop: 30,
+    flex: 1, // Fill the entire screen
+  },
+  innerContainer: {
+    flex: 1, // Allow inner container to fill
+    flexDirection: "column", // Arrange children vertically
+  },
+  scrollContainer: {
+    flexGrow: 1, // Allow scrolling if inner container overflows
+    justifyContent: "space-between", // Space evenly between items
   },
   imageContainer: {
-    flex: 3,
+    flex: 3, // Allow image container to take half of the available space
     justifyContent: "center",
     alignItems: "center",
   },
   formContainer: {
-    flex: 3,
+    flex: 1, // Allow form container to take half of the available space
     justifyContent: "center",
     alignItems: "center",
-  },
-  textStyle: {
-    fontFamily: "Nunito-Regular",
   },
   imageStyle: {
     width: "100%",
     height: "100%",
-  },
-  headerText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: 20,
-    color: "#095E69",
-    alignSelf: "auto",
   },
   userInput: {
     width: "80%",
@@ -115,8 +126,6 @@ const st = StyleSheet.create({
   buttonText: {
     color: "white",
     fontFamily: "Nunito-Bold",
-    alignItems: "center",
-    justifyContent: "center",
     fontSize: 17,
   },
   signupText: {
