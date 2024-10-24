@@ -10,26 +10,42 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { router, useNavigation } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { useEffect } from "react";
+import ConfirmationModal from "@/components/ConfirmationModal"; // Import the modal component
 
 const EditPage = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const navigation = useNavigation();
+
+  const [isModalVisible, setModalVisible] = useState(false); // State for modal visibility
 
   if (!fontsLoaded) {
     return null;
   }
 
   useEffect(() => {
-    // Set custom header title
     navigation.setOptions({
       title: "Edit Profile",
       headerStyle: { backgroundColor: "#76ECFC" },
     });
   }, [navigation]);
+
+  const handleCancelButton = () => {
+    setModalVisible(true); // Show the modal when cancel is pressed
+  };
+
+  const confirmCancel = () => {
+    console.log("Cancel Confirmed");
+    setModalVisible(false); // Hide the modal
+    router.replace("../UserPage"); // Navigate away
+  };
+
+  const dismissModal = () => {
+    setModalVisible(false); // Hide the modal if canceled
+  };
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
@@ -65,12 +81,17 @@ const EditPage = () => {
             <Pressable style={st.buttonConfirm}>
               <Text style={st.buttonText}>Confirm Edit</Text>
             </Pressable>
-            <Pressable style={st.buttonCancel}>
+            <Pressable style={st.buttonCancel} onPress={handleCancelButton}>
               <Text style={st.buttonText}>Cancel</Text>
             </Pressable>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      <ConfirmationModal
+        visible={isModalVisible} // Show the modal based on state
+        onClose={dismissModal} // Close the modal
+        onConfirm={confirmCancel} // Handle confirm action
+      />
     </SafeAreaView>
   );
 };
@@ -140,13 +161,6 @@ const st = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     fontSize: 17,
-  },
-  signinText: {
-    fontFamily: "Nunito-Regular",
-  },
-  signinButton: {
-    fontFamily: "Nunito-Bold",
-    textDecorationLine: "underline",
   },
   buttonCancel: {
     width: "100%",
