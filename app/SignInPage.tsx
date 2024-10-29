@@ -10,12 +10,15 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react"; // Import useState
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { router } from "expo-router";
 
 const SignInPage = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
+
+  const [username, setUsername] = useState(""); // State for username
+  const [password, setPassword] = useState(""); // State for password
 
   if (!fontsLoaded) {
     return null;
@@ -26,9 +29,28 @@ const SignInPage = () => {
     router.replace("./SignUpPage");
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     console.log("Sign In Button Pressed");
-    router.replace("./(tabs)/HomePage");
+    try {
+      const response = await fetch("http://192.168.137.1:5000/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message); // Show success message
+        router.replace("./(tabs)/HomePage"); // Navigate to HomePage
+      } else {
+        alert(`Error: ${data.message}`); // Show error message
+      }
+    } catch (error) {
+      alert("An error occurred while signing in");
+      console.error(error);
+    }
   };
 
   return (
@@ -53,12 +75,16 @@ const SignInPage = () => {
                 placeholder="Enter your Username"
                 placeholderTextColor={"grey"}
                 style={st.userInput}
+                value={username}
+                onChangeText={setUsername} // Update username state
               />
               <TextInput
                 placeholder="Enter your Password"
                 placeholderTextColor={"grey"}
                 secureTextEntry={true}
                 style={st.userInput}
+                value={password}
+                onChangeText={setPassword} // Update password state
               />
               <Pressable style={st.buttonSignIn} onPress={handleSignIn}>
                 <Text style={st.buttonText}>Sign In</Text>
