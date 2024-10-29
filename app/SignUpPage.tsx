@@ -10,12 +10,17 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { router } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 
 const SignUpPage = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [licensePlate, setLicensePlate] = useState("");
 
   if (!fontsLoaded) {
     return null;
@@ -24,6 +29,38 @@ const SignUpPage = () => {
   const handleSignIn = () => {
     console.log("Sign In Button Pressed");
     router.replace("./SignInPage");
+  };
+
+  const handleSignUp = async () => {
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    try {
+      const response = await fetch("http://192.168.137.1:5000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          phoneNumber,
+          licensePlate,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("User registered successfully!");
+        router.replace("./SignInPage");
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      alert("An error occurred while registering");
+      console.error("Fetch error:", error); // Log the exact error
+    }
   };
 
   return (
@@ -48,16 +85,38 @@ const SignUpPage = () => {
           </View>
           <View style={st.formContainer}>
             <Text style={st.textStyle}>Username</Text>
-            <TextInput style={st.userInput} />
+            <TextInput
+              style={st.userInput}
+              value={username}
+              onChangeText={setUsername}
+            />
             <Text style={st.textStyle}>Password</Text>
-            <TextInput style={st.userInput} />
+            <TextInput
+              style={st.userInput}
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+            />
             <Text style={st.textStyle}>Confirm Password</Text>
-            <TextInput style={st.userInput} />
+            <TextInput
+              style={st.userInput}
+              secureTextEntry
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
             <Text style={st.textStyle}>Phone Number</Text>
-            <TextInput style={st.userInput} />
+            <TextInput
+              style={st.userInput}
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+            />
             <Text style={st.textStyle}>License Plate</Text>
-            <TextInput style={st.userInput} />
-            <Pressable style={st.buttonSignUp}>
+            <TextInput
+              style={st.userInput}
+              value={licensePlate}
+              onChangeText={setLicensePlate}
+            />
+            <Pressable style={st.buttonSignUp} onPress={handleSignUp}>
               <Text style={st.buttonText}>Sign Up</Text>
             </Pressable>
             <Pressable onPress={handleSignIn}>
@@ -75,20 +134,20 @@ const SignUpPage = () => {
 
 const st = StyleSheet.create({
   container: {
-    flex: 1, // Fill the entire screen
+    flex: 1,
   },
   scrollContainer: {
-    flexGrow: 1, // Allow the scroll view to grow
-    justifyContent: "space-between", // Space out the header and form evenly
+    flexGrow: 1,
+    justifyContent: "space-between",
   },
   headerContainer: {
-    flex: 1, // Allow header to take half of the available space
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
   },
   formContainer: {
-    flex: 1, // Allow form container to take the other half
+    flex: 1,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
