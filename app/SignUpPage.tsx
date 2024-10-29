@@ -19,6 +19,7 @@ const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [licensePlate, setLicensePlate] = useState("");
 
@@ -34,8 +35,16 @@ const SignUpPage = () => {
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
       alert("Passwords do not match");
+      setConfirmPassword("");
       return;
     }
+
+    if (!phoneNumber.startsWith("62")) {
+      alert("Phone number must start with '62'");
+      setPhoneNumber("");
+      return;
+    }
+
     try {
       const response = await fetch("http://192.168.137.1:5000/register", {
         method: "POST",
@@ -45,6 +54,7 @@ const SignUpPage = () => {
         body: JSON.stringify({
           username,
           password,
+          userEmail,
           phoneNumber,
           licensePlate,
         }),
@@ -104,11 +114,18 @@ const SignUpPage = () => {
               value={confirmPassword}
               onChangeText={setConfirmPassword}
             />
+            <Text style={st.textStyle}>Email</Text>
+            <TextInput
+              style={st.userInput}
+              value={userEmail}
+              onChangeText={setUserEmail}
+            />
             <Text style={st.textStyle}>Phone Number</Text>
             <TextInput
               style={st.userInput}
               value={phoneNumber}
               onChangeText={setPhoneNumber}
+              keyboardType="phone-pad"
             />
             <Text style={st.textStyle}>License Plate</Text>
             <TextInput
