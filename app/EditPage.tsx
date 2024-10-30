@@ -74,8 +74,10 @@ const EditPage = () => {
             <TextInput style={st.userInput} />
             <Text style={st.textStyle}>Confirm Password</Text>
             <TextInput style={st.userInput} />
-            <Text style={st.textStyle}>Phone Number</Text>
+            <Text style={st.textStyle}>Email</Text>
             <TextInput style={st.userInput} />
+            <Text style={st.textStyle}>Phone Number</Text>
+            <TextInput style={st.userInput} keyboardType="phone-pad" />
             <Text style={st.textStyle}>License Plate</Text>
             <TextInput style={st.userInput} />
             <Pressable style={st.buttonConfirm}>
