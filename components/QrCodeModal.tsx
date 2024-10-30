@@ -1,22 +1,22 @@
 // components/QrCodeModal.tsx
+
 import React from "react";
 import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { BlurView } from "expo-blur"; // Import from expo-blur
 import { useCustomFonts } from "@/hooks/useCustomFonts";
+// Import Zustand store
+import useUserStore from "../store/userStore";
 
 interface QrCodeModalProps {
   visible: boolean;
   onClose: () => void;
-  value: string;
 }
 
-const QrCodeModal: React.FC<QrCodeModalProps> = ({
-  visible,
-  onClose,
-  value,
-}) => {
+const QrCodeModal: React.FC<QrCodeModalProps> = ({ visible, onClose }) => {
   const { fontsLoaded } = useCustomFonts();
+  // Access user_unique directly from the Zustand store
+  const user_unique = useUserStore((state) => state.userInfo.user_unique);
 
   if (!fontsLoaded) {
     return null;
@@ -37,7 +37,7 @@ const QrCodeModal: React.FC<QrCodeModalProps> = ({
         <View style={st.modalContainer}>
           <Text style={st.modalTitle}>Your QR Code</Text>
           <View style={st.qrContainer}>
-            <QRCode value={value} size={200} />
+            <QRCode value={user_unique} size={200} />
           </View>
           <Text style={st.tutorText}>
             Scan your own code to the scanner. You will have access to enter and

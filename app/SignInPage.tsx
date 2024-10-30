@@ -1,3 +1,4 @@
+// frontend/app/SignInPage.tsx
 import {
   View,
   Text,
@@ -10,25 +11,23 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React, { useState } from "react"; // Import useState
+import React, { useState } from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { router } from "expo-router";
+import useUserStore from "../store/userStore"; // Import useUserStore
 
-const SignInPage = () => {
+const SignInPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 
-  const [username, setUsername] = useState(""); // State for username
-  const [password, setPassword] = useState(""); // State for password
+  const [username, setUsername] = useState<string>(""); // State for username
+  const [password, setPassword] = useState<string>(""); // State for password
+
+  const setUserInfo = useUserStore((state) => state.setUserInfo); // Zustand setter
 
   if (!fontsLoaded) {
     return null;
   }
-
-  const handleSignUp = () => {
-    console.log("Sign Up Button Pressed");
-    router.replace("./SignUpPage");
-  };
-
+  
   const handleSignIn = async () => {
     console.log("Sign In Button Pressed");
     try {
@@ -41,8 +40,18 @@ const SignInPage = () => {
       });
 
       const data = await response.json();
+
       if (response.ok) {
         alert(data.message); // Show success message
+
+        // Save user info to Zustand store
+        setUserInfo({
+          username: data.username,
+          phone_num: data.phone_num,
+          license_plate: data.license_plate,
+          user_unique: data.user_unique,
+        });
+
         router.replace("./(tabs)/HomePage"); // Navigate to HomePage
       } else {
         alert(`Error: ${data.message}`); // Show error message
@@ -89,7 +98,7 @@ const SignInPage = () => {
               <Pressable style={st.buttonSignIn} onPress={handleSignIn}>
                 <Text style={st.buttonText}>Sign In</Text>
               </Pressable>
-              <Pressable onPress={handleSignUp}>
+              <Pressable onPress={() => router.replace("./SignUpPage")}>
                 <Text style={st.signupText}>
                   Don't have an account?{" "}
                   <Text style={st.signupButton}> Sign Up!</Text>
@@ -105,23 +114,23 @@ const SignInPage = () => {
 
 const st = StyleSheet.create({
   container: {
-    flex: 1, // Fill the entire screen
+    flex: 1,
   },
   innerContainer: {
-    flex: 1, // Allow inner container to fill
-    flexDirection: "column", // Arrange children vertically
+    flex: 1,
+    flexDirection: "column",
   },
   scrollContainer: {
-    flexGrow: 1, // Allow scrolling if inner container overflows
-    justifyContent: "space-between", // Space evenly between items
+    flexGrow: 1,
+    justifyContent: "space-between",
   },
   imageContainer: {
-    flex: 3, // Allow image container to take half of the available space
+    flex: 3,
     justifyContent: "center",
     alignItems: "center",
   },
   formContainer: {
-    flex: 1, // Allow form container to take half of the available space
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

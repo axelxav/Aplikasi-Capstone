@@ -1,9 +1,12 @@
+// components/OtsCode.tsx
+
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import QrCodeModal from "./QrCodeModal";
+import useUserStore from "../store/userStore"; // Import the Zustand store
 
-const OtsCode = () => {
+const OtsCode: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -36,11 +39,7 @@ const OtsCode = () => {
           />
         </Pressable>
       </View>
-      <QrCodeModal
-        visible={isModalVisible}
-        onClose={handleCloseModal}
-        value="axel62817462655"
-      />
+      <QrCodeModal visible={isModalVisible} onClose={handleCloseModal} />
     </View>
   );
 };

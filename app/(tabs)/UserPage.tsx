@@ -1,3 +1,5 @@
+// app/(tabs)/UserPage.tsx
+
 import {
   View,
   Text,
@@ -12,7 +14,7 @@ import { router } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import QrCodeModal from "@/components/QrCodeModal";
 
-const UserPage = () => {
+const UserPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -39,13 +41,16 @@ const UserPage = () => {
 
   const handleEditProfile = () => {
     router.push("../EditPage");
-  }
+  };
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
       <View style={st.headerContainer}>
         <View style={{ flex: 1, alignItems: "center" }}>
-          <Image source={require("../../assets/images/account.png")} style={st.profileImage} />
+          <Image
+            source={require("../../assets/images/account.png")}
+            style={st.profileImage}
+          />
         </View>
         <View style={{ flex: 2 }}>
           <Text style={st.userName}>Axel Xaverius</Text>
@@ -72,11 +77,7 @@ const UserPage = () => {
           <Text style={st.bodyText}>Sign Out</Text>
         </Pressable>
       </View>
-      <QrCodeModal
-        visible={isModalVisible}
-        onClose={handleCloseModal}
-        value="axel62817462655"
-      />
+      <QrCodeModal visible={isModalVisible} onClose={handleCloseModal} />
     </SafeAreaView>
   );
 };
@@ -105,7 +106,6 @@ const st = StyleSheet.create({
     width: 50,
     height: 50,
   },
-
   profileImage: {
     width: 70,
     height: 70,
