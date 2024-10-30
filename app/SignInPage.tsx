@@ -27,7 +27,7 @@ const SignInPage: React.FC = () => {
   if (!fontsLoaded) {
     return null;
   }
-  
+
   const handleSignIn = async () => {
     console.log("Sign In Button Pressed");
     try {
@@ -47,6 +47,7 @@ const SignInPage: React.FC = () => {
         // Save user info to Zustand store
         setUserInfo({
           username: data.username,
+          user_email: data.user_email,
           phone_num: data.phone_num,
           license_plate: data.license_plate,
           user_unique: data.user_unique,

@@ -13,10 +13,15 @@ import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import QrCodeModal from "@/components/QrCodeModal";
+import useUserStore from "@/store/userStore";
 
 const UserPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const username = useUserStore((state) => state.userInfo.username);
+  const user_email = useUserStore((state) => state.userInfo.user_email);
+  const phone_num = useUserStore((state) => state.userInfo.phone_num);
 
   if (!fontsLoaded) {
     return null;
@@ -53,9 +58,9 @@ const UserPage: React.FC = () => {
           />
         </View>
         <View style={{ flex: 2 }}>
-          <Text style={st.userName}>Axel Xaverius</Text>
-          <Text style={st.userDetail}>axel.xaverius@gmail.com</Text>
-          <Text style={st.userDetail}>62817123456</Text>
+          <Text style={st.userName}>{username}</Text>
+          <Text style={st.userDetail}>{user_email}</Text>
+          <Text style={st.userDetail}>{phone_num}</Text>
         </View>
         <View style={{ flex: 1, alignItems: "center" }}>
           <Pressable style={st.qrButton} onPress={handleOpenModal}>

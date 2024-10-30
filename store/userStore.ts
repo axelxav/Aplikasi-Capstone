@@ -3,6 +3,7 @@ import {create} from 'zustand';
 
 interface UserInfo {
   username: string;
+  user_email: string;
   phone_num: string;
   license_plate: string;
   user_unique: string;
@@ -16,6 +17,7 @@ interface UserStore {
 const useUserStore = create<UserStore>((set) => ({
   userInfo: {
     username: '',
+    user_email: '',
     phone_num: '',
     license_plate: '',
     user_unique: '',
