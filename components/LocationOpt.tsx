@@ -17,13 +17,14 @@ const locations = [
   "Kabupaten Gunung Kidul",
   "Kabupaten Kulon Progo",
   "Kota Yogyakarta",
+  "All Locations"
 ];
 
 const LocationOpt = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(
-    "Kota Yogyakarta"
+    "All Locations"
   ); // Default location
 
   if (!fontsLoaded) {
@@ -48,7 +49,7 @@ const LocationOpt = () => {
       </View>
       <View>
         <Pressable onPress={() => setModalVisible(true)}>
-          <Text style={st.changeText}>Change</Text>
+          <Text style={st.changeText}>Change Location</Text>
         </Pressable>
       </View>
 
@@ -104,12 +105,12 @@ const st = StyleSheet.create({
   },
   changeText: {
     fontFamily: "Nunito-Bold",
-    fontSize: 10,
+    fontSize: 11,
     textDecorationLine: "underline",
   },
   locationText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: 10,
+    fontFamily: "Nunito-Regular",
+    fontSize: 15,
   },
   locationIcon: {
     marginRight: 10,

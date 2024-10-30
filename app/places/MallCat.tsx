@@ -24,13 +24,12 @@ const MallCat = () => {
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
-      <View>
+      <View style={st.headerContainer}>
         <SearchHeader />
         <LocationOpt />
+        <Text style={st.headerText}>Mall Category</Text>
       </View>
-      <View>
-        <Text>Mall Category</Text>
-      </View>
+      <View></View>
     </SafeAreaView>
   );
 };
@@ -41,5 +40,15 @@ const st = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  headerContainer: {
+    flexGrow: 0, // Do not grow, stay fixed
+    height: 150, // Fixed height for header
+  },
+  headerText: {
+    fontSize: 20,
+    fontFamily: "Nunito-Bold",
+    alignSelf: "center",
+    marginTop: 20,
   }
 });
