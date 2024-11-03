@@ -13,6 +13,7 @@ import {
 import React, { useState } from "react";
 import { router } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
+import useTestingStore from "@/store/testingStore";
 
 const SignUpPage = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
@@ -22,6 +23,8 @@ const SignUpPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [licensePlate, setLicensePlate] = useState("");
+
+  const iplocalhost = useTestingStore((state) => state.iplocalhost);
 
   if (!fontsLoaded) {
     return null;
@@ -46,7 +49,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await fetch("http://192.168.137.1:5000/register", {
+      const response = await fetch(`http://${iplocalhost}:5000/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -15,8 +15,6 @@ import useLocationStore from "@/store/locationStore";
 const locations = [
   "Kabupaten Sleman",
   "Kabupaten Bantul",
-  "Kabupaten Gunung Kidul",
-  "Kabupaten Kulon Progo",
   "Kota Yogyakarta",
   "All Locations",
 ];

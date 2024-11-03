@@ -14,7 +14,8 @@ import {
 import React, { useState } from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { router } from "expo-router";
-import useUserStore from "../store/userStore"; // Import useUserStore
+import useUserStore from "../store/userStore";
+import useTestingStore from "@/store/testingStore";
 
 const SignInPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
@@ -24,6 +25,8 @@ const SignInPage: React.FC = () => {
 
   const setUserInfo = useUserStore((state) => state.setUserInfo); // Zustand setter
 
+  const iplocalhost = useTestingStore((state) => state.iplocalhost);
+
   if (!fontsLoaded) {
     return null;
   }
@@ -31,7 +34,7 @@ const SignInPage: React.FC = () => {
   const handleSignIn = async () => {
     console.log("Sign In Button Pressed");
     try {
-      const response = await fetch("http://192.168.137.1:5000/signin", {
+      const response = await fetch(`http://${iplocalhost}:5000/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

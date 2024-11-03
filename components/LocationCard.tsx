@@ -10,6 +10,7 @@ import {
 import React from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { useState, useEffect } from "react";
+import useTestingStore from "@/store/testingStore";
 
 interface LocationCardProps {
   type?: string;
@@ -28,11 +29,12 @@ const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
   const [loading, setLoading] = useState(true);
   const { fontsLoaded } = useCustomFonts();
   const [error, setError] = useState("");
+  const iplocalhost = useTestingStore((state) => state.iplocalhost);
 
   const fetchPlaces = async () => {
     try {
       const response = await fetch(
-        `http://192.168.137.1:5000/getPlaces?places_type=${
+        `http://${iplocalhost}:5000/getPlaces?places_type=${
           type || ""
         }&places_addr=${address || ""}`
       );

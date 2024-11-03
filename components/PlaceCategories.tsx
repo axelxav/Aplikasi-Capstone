@@ -4,6 +4,7 @@ import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 
+
 const PlaceCategories = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 
@@ -13,6 +14,14 @@ const PlaceCategories = () => {
 
   const handleMallCat = () => {
     router.push("/places/MallCat");
+  };
+
+  const handleHotelCat = () => {
+    router.push("/places/HotelCat");
+  };
+
+  const handleHospitalCat = () => {
+    router.push("/places/HospitalCat");
   };
 
   return (
@@ -37,7 +46,7 @@ const PlaceCategories = () => {
         </View>
         <View style={st.columnStyle}>
           <View style={st.singleCategory}>
-            <Pressable style={st.buttonIcon}>
+            <Pressable style={st.buttonIcon} onPress={handleHotelCat}>
               <Ionicons name="bed-outline" size={35} color="black" />
             </Pressable>
             <Text style={st.bodyText}>Hotel</Text>
@@ -51,7 +60,7 @@ const PlaceCategories = () => {
         </View>
         <View style={st.columnStyle}>
           <View style={st.singleCategory}>
-            <Pressable style={st.buttonIcon}>
+            <Pressable style={st.buttonIcon} onPress={handleHospitalCat}>
               <Ionicons name="medkit-outline" size={35} color="black" />
             </Pressable>
             <Text style={st.bodyText}>Hospital</Text>
