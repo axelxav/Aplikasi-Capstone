@@ -1,7 +1,15 @@
-import { StyleSheet, Text, View, Image, ActivityIndicator, FlatList, SafeAreaView } from 'react-native'
-import React from 'react'
-import { useCustomFonts } from '@/hooks/useCustomFonts';
-import { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
+import React from "react";
+import { useCustomFonts } from "@/hooks/useCustomFonts";
+import { useState, useEffect } from "react";
 
 interface LocationCardProps {
   type?: string;
@@ -9,25 +17,29 @@ interface LocationCardProps {
 }
 
 interface Places {
-  id: number,
+  id: number;
   places_name: string;
   places_addr: string;
   places_type: string;
 }
 
-const LocationCard: React.FC<LocationCardProps> = ({type, address}) => {
+const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
   const [places, setPlaces] = useState<Places[]>([]);
   const [loading, setLoading] = useState(true);
   const { fontsLoaded } = useCustomFonts();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const fetchPlaces = async () => {
     try {
-      const response = await fetch(`http://192.168.137.1:5000/getPlaces`);
+      const response = await fetch(
+        `http://192.168.137.1:5000/getPlaces?places_type=${
+          type || ""
+        }&places_addr=${address || ""}`
+      );
       const data = await response.json();
       setPlaces(data);
     } catch {
-      setError('failed to fetch data');
+      setError("failed to fetch data");
       console.log(error);
     } finally {
       setLoading(false);
@@ -36,7 +48,7 @@ const LocationCard: React.FC<LocationCardProps> = ({type, address}) => {
 
   useEffect(() => {
     fetchPlaces();
-  }, [type,address]);
+  }, [type, address]);
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -78,9 +90,9 @@ const LocationCard: React.FC<LocationCardProps> = ({type, address}) => {
       ListFooterComponent={<View style={{ height: 200 }} />}
     />
   );
-}
+};
 
-export default LocationCard
+export default LocationCard;
 
 const st = StyleSheet.create({
   locationBox: {
@@ -127,6 +139,5 @@ const st = StyleSheet.create({
     justifyContent: "space-between", // Space between columns
     paddingHorizontal: 5, // Optional horizontal padding
   },
-  contentContainer: {
-  },
+  contentContainer: {},
 });

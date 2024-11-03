@@ -5,10 +5,12 @@ import SearchHeader from "@/components/SearchHeader";
 import LocationOpt from "@/components/LocationOpt";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import LocationCard from "@/components/LocationCard";
+import useLocationStore from "@/store/locationStore";
 
 const MallCat = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const navigation = useNavigation();
+  const selectedLocation = useLocationStore((state) => state.selectedLocation);
 
   useEffect(() => {
     // Set custom header title
@@ -28,14 +30,19 @@ const MallCat = () => {
         style={{ flex: 1 }}
         behavior={Platform.OS === "android" ? "padding" : "height"}
       >
-          <View style={st.headerContainer}>
-            <SearchHeader />
-            <LocationOpt />
-            <Text style={st.headerText}>Mall Category</Text>
-          </View>
-          <View style={st.locationContainer}>
-            <LocationCard type="mall" address="" />
-          </View>
+        <View style={st.headerContainer}>
+          <SearchHeader />
+          <LocationOpt />
+          <Text style={st.headerText}>Mall Category</Text>
+        </View>
+        <View style={st.locationContainer}>
+          <LocationCard
+            type="mall"
+            address={
+              selectedLocation === "All Locations" ? "" : selectedLocation
+            }
+          />
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
