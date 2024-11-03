@@ -24,6 +24,10 @@ const PlaceCategories = () => {
     router.push("/places/HospitalCat");
   };
 
+  const handleSupermarketCat = () => {
+    router.push("/places/SupermarketCat");
+  }
+
   return (
     <View style={st.container} onLayout={onLayoutRootView}>
       <View style={st.headerContainer}>
@@ -38,7 +42,7 @@ const PlaceCategories = () => {
             <Text style={st.bodyText}>Mall</Text>
           </View>
           <View style={st.singleCategory}>
-            <Pressable style={st.buttonIcon}>
+            <Pressable style={st.buttonIcon} onPress={handleSupermarketCat}>
               <Ionicons name="basket-outline" size={35} color="black" />
             </Pressable>
             <Text style={st.bodyText}>Supermarket</Text>
