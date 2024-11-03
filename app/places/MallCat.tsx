@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, Image } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, Image, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import React, { useEffect } from "react";
 import { useNavigation } from "expo-router";
 import SearchHeader from "@/components/SearchHeader";
@@ -24,14 +24,19 @@ const MallCat = () => {
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
-      <View style={st.headerContainer}>
-        <SearchHeader />
-        <LocationOpt />
-        <Text style={st.headerText}>Mall Category</Text>
-      </View>
-      <View style={st.locationContainer}>
-        <LocationCard type="" address="" />
-      </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "android" ? "padding" : "height"}
+      >
+          <View style={st.headerContainer}>
+            <SearchHeader />
+            <LocationOpt />
+            <Text style={st.headerText}>Mall Category</Text>
+          </View>
+          <View style={st.locationContainer}>
+            <LocationCard type="" address="" />
+          </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -42,6 +47,10 @@ const st = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "space-between",
   },
   headerContainer: {
     flexGrow: 0, // Do not grow, stay fixed

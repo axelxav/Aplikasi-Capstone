@@ -75,6 +75,7 @@ const LocationCard: React.FC<LocationCardProps> = ({type, address}) => {
       numColumns={2} // Set number of columns to 2
       columnWrapperStyle={st.columnWrapper} // Add styling for spacing between columns
       contentContainerStyle={st.contentContainer}
+      ListFooterComponent={<View style={{ height: 200 }} />}
     />
   );
 }
