@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { BlurView } from "expo-blur";
+import useLocationStore from "@/store/locationStore";
 
 const locations = [
   "Kabupaten Sleman",
@@ -23,7 +24,12 @@ const locations = [
 const LocationOpt = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState("All Locations"); // Default location
+  // const [selectedLocation, setSelectedLocation] = useState("All Locations"); // Default location
+
+  const selectedLocation = useLocationStore((state) => state.selectedLocation);
+  const setSelectedLocation = useLocationStore(
+    (state) => state.setSelectedLocation
+  );
 
   if (!fontsLoaded) {
     return null;

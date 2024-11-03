@@ -34,7 +34,7 @@ const MallCat = () => {
             <Text style={st.headerText}>Mall Category</Text>
           </View>
           <View style={st.locationContainer}>
-            <LocationCard type="" address="" />
+            <LocationCard type="mall" address="" />
           </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
