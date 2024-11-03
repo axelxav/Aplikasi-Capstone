@@ -17,15 +17,13 @@ const locations = [
   "Kabupaten Gunung Kidul",
   "Kabupaten Kulon Progo",
   "Kota Yogyakarta",
-  "All Locations"
+  "All Locations",
 ];
 
 const LocationOpt = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState(
-    "All Locations"
-  ); // Default location
+  const [selectedLocation, setSelectedLocation] = useState("All Locations"); // Default location
 
   if (!fontsLoaded) {
     return null;

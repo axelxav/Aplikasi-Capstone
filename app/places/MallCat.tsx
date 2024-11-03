@@ -1,9 +1,10 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, Image } from "react-native";
 import React, { useEffect } from "react";
 import { useNavigation } from "expo-router";
 import SearchHeader from "@/components/SearchHeader";
 import LocationOpt from "@/components/LocationOpt";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
+import LocationCard from "@/components/LocationCard";
 
 const MallCat = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
@@ -17,7 +18,6 @@ const MallCat = () => {
     });
   }, [navigation]);
 
-
   if (!fontsLoaded) {
     return null;
   }
@@ -29,7 +29,9 @@ const MallCat = () => {
         <LocationOpt />
         <Text style={st.headerText}>Mall Category</Text>
       </View>
-      <View></View>
+      <View style={st.locationContainer}>
+        <LocationCard type="" address="" />
+      </View>
     </SafeAreaView>
   );
 };
@@ -50,5 +52,12 @@ const st = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     alignSelf: "center",
     marginTop: 20,
-  }
+  },
+  locationContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+  },
 });
