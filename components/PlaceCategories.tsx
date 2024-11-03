@@ -59,7 +59,7 @@ const PlaceCategories = () => {
             <Pressable style={st.buttonIcon}>
               <Ionicons name="business-outline" size={35} color="black" />
             </Pressable>
-            <Text style={st.bodyText}>Office</Text>
+            <Text style={st.bodyText}>Bank</Text>
           </View>
         </View>
         <View style={st.columnStyle}>

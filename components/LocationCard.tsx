@@ -6,11 +6,14 @@ import {
   ActivityIndicator,
   FlatList,
   SafeAreaView,
+  Pressable,
 } from "react-native";
 import React from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { useState, useEffect } from "react";
 import useTestingStore from "@/store/testingStore";
+import { router } from "expo-router";
+import usePlaceStore from "@/store/placeStore";
 
 interface LocationCardProps {
   type?: string;
@@ -30,6 +33,7 @@ const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
   const { fontsLoaded } = useCustomFonts();
   const [error, setError] = useState("");
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
+  const setPlaceName = usePlaceStore((state)=>state.setPlaceName)
 
   const fetchPlaces = async () => {
     try {
@@ -60,31 +64,46 @@ const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
     return <Text>{error}</Text>;
   }
 
+  const handleReserve = (placeName: string) => {
+    router.push("/ReservationPage");
+    setPlaceName(placeName)
+  }
+
   return (
     <FlatList
       data={places}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <SafeAreaView style={st.locationBox}>
-          <View style={st.placeImageContainer}>
-            <Image
-              source={require("@/assets/images/buildillustration.jpg")}
-              style={st.imageStyle}
-            />
-          </View>
-          <View style={st.placeInfoContainer}>
-            <View style={{ flex: 1, justifyContent: "center" }}>
-              <Text numberOfLines={2} ellipsizeMode="tail" style={st.placeName}>
-                {item.places_name}
-              </Text>
+        <Pressable onPress={() => handleReserve(item.places_name)}>
+          <SafeAreaView style={st.locationBox}>
+            <View style={st.placeImageContainer}>
+              <Image
+                source={require("@/assets/images/buildillustration.jpg")}
+                style={st.imageStyle}
+              />
             </View>
-            <View style={{ flex: 1, justifyContent: "center" }}>
-              <Text numberOfLines={2} ellipsizeMode="tail" style={st.placeAddr}>
-                {item.places_addr}
-              </Text>
+            <View style={st.placeInfoContainer}>
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                  style={st.placeName}
+                >
+                  {item.places_name}
+                </Text>
+              </View>
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                  style={st.placeAddr}
+                >
+                  {item.places_addr}
+                </Text>
+              </View>
             </View>
-          </View>
-        </SafeAreaView>
+          </SafeAreaView>
+        </Pressable>
       )}
       numColumns={2} // Set number of columns to 2
       columnWrapperStyle={st.columnWrapper} // Add styling for spacing between columns
