@@ -35,6 +35,8 @@ const ReservationPage = () => {
       title: placeName + " Reservation",
       headerStyle: { backgroundColor: "#76ECFC" },
     });
+    setSelectedTime("Select Time");
+    setSelectedSlot("Select Slot");
   }, [navigation]);
 
   const handleSlotSelection = (slotId: string) => {
