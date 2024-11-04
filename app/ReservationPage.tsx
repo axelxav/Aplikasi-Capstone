@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import { Pressable, StyleSheet, Text, View, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
 import usePlaceStore from "@/store/placeStore";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,10 +11,15 @@ const ReservationPage = () => {
   const placeName = usePlaceStore((state) => state.placeName);
   const navigation = useNavigation();
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
+  const setSelectedSlot = useSelectedSlot((state) => state.setSelectedSlot as (slot: string | null) => void);
   const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
-  const setSelectedSlot = useSelectedSlot((state) => state.setSelectedSlot);
   const selectedTime = useSelectedTime((state) => state.selectedTime);
   const setSelectedTime = useSelectedTime((state) => state.setSelectedTime);
+
+  // State to track the currently selected slot
+  const [currentSelectedSlot, setCurrentSelectedSlot] = useState<string | null>(
+    null
+  );
 
   if (!fontsLoaded) {
     return null;
@@ -28,15 +33,25 @@ const ReservationPage = () => {
     });
   }, [navigation]);
 
- 
-  const handleReservation = (slot: string) => {
-    setSelectedSlot(slot);
-  }
+  const handleReservation = (slotId: string) => {
+    // If the selected slot is the same as the current, just return (toggle behavior)
+    if (currentSelectedSlot === slotId) {
+      setCurrentSelectedSlot(null);
+      setSelectedSlot(null); // Clear selected slot in Zustand store
+    } else {
+      // If another slot was selected before, deselect the previous one
+      if (currentSelectedSlot) {
+        setSelectedSlot(null); // Clear previously selected slot in Zustand store
+      }
+      setCurrentSelectedSlot(slotId); // Set the newly selected slot
+      setSelectedSlot(slotId); // Update Zustand store with the new selection
+    }
+  };
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
       <View style={st.legendContainer}>
-        {/* legend components */}
+        {/* Legend components */}
         <View style={st.legendBoxes}>
           <View style={st.availableBox} />
           <Text style={st.legendText}>Available</Text>
@@ -81,28 +96,32 @@ const ReservationPage = () => {
           }}
         >
           <View style={st.columnStyle}>
-            <Pressable
-              style={[st.availableBox, { marginBottom: 30 }]}
-              onPress={() => handleReservation("A3")}
-            ></Pressable>
-            <Pressable
-              style={[st.availableBox, { marginBottom: 30 }]}
-              onPress={() => handleReservation("A2")}
-            ></Pressable>
-            <Pressable
-              style={[st.availableBox, { marginBottom: 30 }]}
-              onPress={() => handleReservation("A1")}
-            ></Pressable>
+            {/* Render A Row Slots */}
+            {["A3", "A2", "A1"].map((slot) => (
+              <Pressable
+                key={slot}
+                style={[
+                  st.availableBox,
+                  { marginBottom: 30 },
+                  currentSelectedSlot === slot && st.selectedBox, // Change style if selected
+                ]}
+                onPress={() => handleReservation(slot)}
+              ></Pressable>
+            ))}
           </View>
           <View style={st.columnStyle}>
-            <Pressable
-              style={[st.availableBox, { marginBottom: 30 }]}
-              onPress={() => handleReservation("B2")}
-            ></Pressable>
-            <Pressable
-              style={[st.availableBox, { marginBottom: 30 }]}
-              onPress={() => handleReservation("B1")}
-            ></Pressable>
+            {/* Render B Row Slots */}
+            {["B2", "B1"].map((slot) => (
+              <Pressable
+                key={slot}
+                style={[
+                  st.availableBox,
+                  { marginBottom: 30 },
+                  currentSelectedSlot === slot && st.selectedBox, // Change style if selected
+                ]}
+                onPress={() => handleReservation(slot)}
+              ></Pressable>
+            ))}
           </View>
         </View>
         <View
@@ -154,22 +173,30 @@ const st = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   legendContainer: {
     position: "absolute",
-    flex: 1,
-    top: 0,
-    left: 0,
-    right: 0,
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginTop: 20,
     padding: 10,
+    top: 0,
+    left: 0,
+    right: 0,
+    // card style
+    backgroundColor: "white",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+
   },
   legendBoxes: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -198,8 +225,19 @@ const st = StyleSheet.create({
   },
   mapContainer: {
     flex: 1,
-    marginTop: "40%",
+    marginTop: "20%",
     padding: 10,
+    // card style
+    backgroundColor: "white",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   columnStyle: {
     flexDirection: "column",
@@ -231,7 +269,7 @@ const st = StyleSheet.create({
   detailContainer: {
     flexDirection: "row",
     backgroundColor: "#C7F8FF",
-    paddingVertical: 20,
+    paddingVertical: 15,
     paddingHorizontal: 50,
     justifyContent: "space-between",
   },
