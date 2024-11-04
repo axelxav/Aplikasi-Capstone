@@ -20,8 +20,8 @@ import useTestingStore from "@/store/testingStore";
 const SignInPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 
-  const [username, setUsername] = useState<string>(""); // State for username
-  const [password, setPassword] = useState<string>(""); // State for password
+  const [username, setUsername] = useState<string>("test"); // jangan lupa dihapus
+  const [password, setPassword] = useState<string>("testpass"); // jangan lupa dihapus
 
   const setUserInfo = useUserStore((state) => state.setUserInfo); // Zustand setter
 

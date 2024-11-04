@@ -6,7 +6,7 @@ interface SelectedSlotStore {
 }
 
 const useSelectedSlot = create<SelectedSlotStore>((set) => ({
-  selectedSlot: '',
+  selectedSlot: 'Select Slot',
   setSelectedSlot: (place) => set({ selectedSlot: place })
 }));
 

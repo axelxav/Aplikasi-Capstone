@@ -6,7 +6,7 @@ interface SelectedTimeStore {
 }
 
 const useSelectedTime = create<SelectedTimeStore>((set) => ({
-  selectedTime: '',
+  selectedTime: 'Select Time',
   setSelectedTime: (place) => set({ selectedTime: place })
 }));
 

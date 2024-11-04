@@ -4,11 +4,17 @@ import { useNavigation } from "expo-router";
 import usePlaceStore from "@/store/placeStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
+import useSelectedSlot from "@/store/selectedSlotStore";
+import useSelectedTime from "@/store/selectedTimeStore";
 
 const ReservationPage = () => {
   const placeName = usePlaceStore((state) => state.placeName);
   const navigation = useNavigation();
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
+  const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
+  const setSelectedSlot = useSelectedSlot((state) => state.setSelectedSlot);
+  const selectedTime = useSelectedTime((state) => state.selectedTime);
+  const setSelectedTime = useSelectedTime((state) => state.setSelectedTime);
 
   if (!fontsLoaded) {
     return null;
@@ -21,6 +27,11 @@ const ReservationPage = () => {
       headerStyle: { backgroundColor: "#76ECFC" },
     });
   }, [navigation]);
+
+ 
+  const handleReservation = (slot: string) => {
+    setSelectedSlot(slot);
+  }
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
@@ -72,20 +83,25 @@ const ReservationPage = () => {
           <View style={st.columnStyle}>
             <Pressable
               style={[st.availableBox, { marginBottom: 30 }]}
+              onPress={() => handleReservation("A3")}
             ></Pressable>
             <Pressable
               style={[st.availableBox, { marginBottom: 30 }]}
+              onPress={() => handleReservation("A2")}
             ></Pressable>
             <Pressable
               style={[st.availableBox, { marginBottom: 30 }]}
+              onPress={() => handleReservation("A1")}
             ></Pressable>
           </View>
           <View style={st.columnStyle}>
             <Pressable
               style={[st.availableBox, { marginBottom: 30 }]}
+              onPress={() => handleReservation("B2")}
             ></Pressable>
             <Pressable
               style={[st.availableBox, { marginBottom: 30 }]}
+              onPress={() => handleReservation("B1")}
             ></Pressable>
           </View>
         </View>
@@ -112,12 +128,16 @@ const ReservationPage = () => {
           <View style={{ alignItems: "center" }}>
             <Text style={st.detailText}>Arrival Time</Text>
             <Pressable>
-              <Text style={[st.detailTextBold, {textDecorationLine: "underline"}]}>Select Time</Text>
+              <Text
+                style={[st.detailTextBold, { textDecorationLine: "underline" }]}
+              >
+                {selectedTime}
+              </Text>
             </Pressable>
           </View>
           <View style={{ alignItems: "center" }}>
             <Text style={st.detailText}>Selected Slot</Text>
-            <Text style={st.detailTextBold}>A1</Text>
+            <Text style={st.detailTextBold}>{selectedSlot}</Text>
           </View>
         </View>
         <Pressable style={st.reserveButton}>
@@ -222,5 +242,5 @@ const st = StyleSheet.create({
   detailTextBold: {
     fontFamily: "Nunito-Bold",
     fontSize: 18,
-  }
+  },
 });
