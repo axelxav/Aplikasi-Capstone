@@ -111,7 +111,9 @@ const ReservationPage = () => {
         <View style={st.detailContainer}>
           <View style={{ alignItems: "center" }}>
             <Text style={st.detailText}>Arrival Time</Text>
-            <Text style={st.detailTextBold}>11 : 45</Text>
+            <Pressable>
+              <Text style={[st.detailTextBold, {textDecorationLine: "underline"}]}>Select Time</Text>
+            </Pressable>
           </View>
           <View style={{ alignItems: "center" }}>
             <Text style={st.detailText}>Selected Slot</Text>
