@@ -5,7 +5,7 @@ interface TestingStore {
 }
 
 const useTestingStore = create<TestingStore>((set) => ({
-  iplocalhost: '10.200.139.104',
+  iplocalhost: '192.168.123.102',
 }));
 
 export default useTestingStore

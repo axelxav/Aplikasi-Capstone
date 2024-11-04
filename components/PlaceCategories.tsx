@@ -33,6 +33,7 @@ const PlaceCategories = () => {
       <View style={st.headerContainer}>
         <Text style={st.headerText}>Place by Categories</Text>
       </View>
+      {/* category column */}
       <View style={st.categories}>
         <View style={st.columnStyle}>
           <View style={st.singleCategory}>
