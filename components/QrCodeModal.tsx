@@ -5,7 +5,6 @@ import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { BlurView } from "expo-blur"; // Import from expo-blur
 import { useCustomFonts } from "@/hooks/useCustomFonts";
-// Import Zustand store
 import useUserStore from "../store/userStore";
 
 interface QrCodeModalProps {
@@ -15,7 +14,6 @@ interface QrCodeModalProps {
 
 const QrCodeModal: React.FC<QrCodeModalProps> = ({ visible, onClose }) => {
   const { fontsLoaded } = useCustomFonts();
-  // Access user_unique directly from the Zustand store
   const user_unique = useUserStore((state) => state.userInfo.user_unique);
 
   if (!fontsLoaded) {

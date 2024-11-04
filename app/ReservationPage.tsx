@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import useSelectedSlot from "@/store/selectedSlotStore";
 import useSelectedTime from "@/store/selectedTimeStore";
+import TimePickerModal from "@/components/TimePickerModal";
 
 const ReservationPage = () => {
   const placeName = usePlaceStore((state) => state.placeName);
@@ -17,6 +18,7 @@ const ReservationPage = () => {
   const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
   const selectedTime = useSelectedTime((state) => state.selectedTime);
   const setSelectedTime = useSelectedTime((state) => state.setSelectedTime);
+  const [modalVisible, setModalVisible] = useState(false);
 
   // State to track the currently selected slot
   const [currentSelectedSlot, setCurrentSelectedSlot] = useState<string | null>(
@@ -49,6 +51,10 @@ const ReservationPage = () => {
       setSelectedSlot(slotId); // Update Zustand store with the new selection
     }
   };
+
+  const handleModalVisible = () => {
+    setModalVisible(!modalVisible);
+  }
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
@@ -148,7 +154,7 @@ const ReservationPage = () => {
         <View style={st.detailContainer}>
           <View style={{ alignItems: "center" }}>
             <Text style={st.detailText}>Arrival Time</Text>
-            <Pressable>
+            <Pressable onPress={handleModalVisible}>
               <Text
                 style={[st.detailTextBold, { textDecorationLine: "underline" }]}
               >
@@ -165,6 +171,7 @@ const ReservationPage = () => {
           <Text style={st.reserveText}>Reserve</Text>
         </Pressable>
       </View>
+      <TimePickerModal visible={modalVisible} onClose={handleModalVisible} />
     </SafeAreaView>
   );
 };
