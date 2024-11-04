@@ -7,6 +7,7 @@ import { useCustomFonts } from "@/hooks/useCustomFonts";
 import useSelectedSlot from "@/store/selectedSlotStore";
 import useSelectedTime from "@/store/selectedTimeStore";
 import TimePickerModal from "@/components/TimePickerModal";
+import ReservationModal from "@/components/ReservationModal";
 
 const ReservationPage = () => {
   const placeName = usePlaceStore((state) => state.placeName);
@@ -19,6 +20,7 @@ const ReservationPage = () => {
   const selectedTime = useSelectedTime((state) => state.selectedTime);
   const setSelectedTime = useSelectedTime((state) => state.setSelectedTime);
   const [modalVisible, setModalVisible] = useState(false);
+  const [reservationInfo, setReservationInfo] = useState(false);
 
   // State to track the currently selected slot
   const [currentSelectedSlot, setCurrentSelectedSlot] = useState<string | null>(
@@ -56,6 +58,11 @@ const ReservationPage = () => {
 
   const handleModalVisible = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const handleReservation = () => {
+    setReservationInfo(!reservationInfo);
+    
   };
 
   return (
@@ -186,11 +193,13 @@ const ReservationPage = () => {
           disabled={
             selectedSlot === "Select Slot" || selectedTime === "Select Time"
           }
+          onPress={handleReservation}
         >
           <Text style={st.reserveText}>Reserve</Text>
         </Pressable>
       </View>
       <TimePickerModal visible={modalVisible} onClose={handleModalVisible} />
+      <ReservationModal visible={reservationInfo} onClose={handleReservation} />      
     </SafeAreaView>
   );
 };
