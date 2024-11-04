@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useNavigation } from "expo-router";
+import { useNavigation, Router } from "expo-router";
 import usePlaceStore from "@/store/placeStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
@@ -11,7 +11,9 @@ const ReservationPage = () => {
   const placeName = usePlaceStore((state) => state.placeName);
   const navigation = useNavigation();
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
-  const setSelectedSlot = useSelectedSlot((state) => state.setSelectedSlot as (slot: string | null) => void);
+  const setSelectedSlot = useSelectedSlot(
+    (state) => state.setSelectedSlot as (slot: string | null) => void
+  );
   const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
   const selectedTime = useSelectedTime((state) => state.selectedTime);
   const setSelectedTime = useSelectedTime((state) => state.setSelectedTime);
@@ -194,7 +196,6 @@ const st = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-
   },
   legendBoxes: {
     flexDirection: "row",
