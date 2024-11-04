@@ -21,7 +21,8 @@ const TimePickerModal: React.FC<TimePickerModalProps> = ({
   const [date, setDate] = useState(new Date());
 
   const handleConfirm = (date: Date) => {
-    console.warn("A date has been picked: ", date);
+    // console.warn("A date has been picked: ", date);
+    console.log("A date has been picked: ", date);
     setSelectedTime(date.toLocaleTimeString());
     onClose();
   };
@@ -48,7 +49,7 @@ const TimePickerModal: React.FC<TimePickerModalProps> = ({
             mode="time"
             date={date}
             onConfirm={handleConfirm}
-            onCancel={onClose}
+            onCancel={() => { onClose(); setSelectedTime("Select Time"); }}
           />
         </BlurView>
       </Modal>

@@ -37,11 +37,11 @@ const ReservationPage = () => {
     });
   }, [navigation]);
 
-  const handleReservation = (slotId: string) => {
+  const handleSlotSelection = (slotId: string) => {
     // If the selected slot is the same as the current, just return (toggle behavior)
     if (currentSelectedSlot === slotId) {
-      setCurrentSelectedSlot(null);
-      setSelectedSlot(null); // Clear selected slot in Zustand store
+      setCurrentSelectedSlot("Select Slot");
+      setSelectedSlot("Select Slot"); // Clear selected slot in Zustand store
     } else {
       // If another slot was selected before, deselect the previous one
       if (currentSelectedSlot) {
@@ -113,7 +113,7 @@ const ReservationPage = () => {
                   { marginBottom: 30 },
                   currentSelectedSlot === slot && st.selectedBox, // Change style if selected
                 ]}
-                onPress={() => handleReservation(slot)}
+                onPress={() => handleSlotSelection(slot)}
               ></Pressable>
             ))}
           </View>
@@ -127,7 +127,7 @@ const ReservationPage = () => {
                   { marginBottom: 30 },
                   currentSelectedSlot === slot && st.selectedBox, // Change style if selected
                 ]}
-                onPress={() => handleReservation(slot)}
+                onPress={() => handleSlotSelection(slot)}
               ></Pressable>
             ))}
           </View>
@@ -170,7 +170,21 @@ const ReservationPage = () => {
             <Text style={st.detailTextBold}>{selectedSlot}</Text>
           </View>
         </View>
-        <Pressable style={st.reserveButton}>
+        <Pressable
+          style={[
+            // Change the color based on the condition
+            st.reserveButton,
+            {
+              backgroundColor:
+                selectedSlot === "Select Slot" || selectedTime === "Select Time"
+                  ? "#D9D9D9"
+                  : "#095E69",
+            },
+          ]}
+          disabled={
+            selectedSlot === "Select Slot" || selectedTime === "Select Time"
+          }
+        >
           <Text style={st.reserveText}>Reserve</Text>
         </Pressable>
       </View>
