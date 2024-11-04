@@ -108,9 +108,19 @@ const ReservationPage = () => {
         </View>
       </View>
       <View style={st.confirmationContainer}>
-          <Pressable style={st.reserveButton}>
-            <Text style={st.reserveText}>Reserve</Text>
-          </Pressable>
+        <View style={st.detailContainer}>
+          <View style={{ alignItems: "center" }}>
+            <Text style={st.detailText}>Arrival Time</Text>
+            <Text style={st.detailTextBold}>11 : 45</Text>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={st.detailText}>Selected Slot</Text>
+            <Text style={st.detailTextBold}>A1</Text>
+          </View>
+        </View>
+        <Pressable style={st.reserveButton}>
+          <Text style={st.reserveText}>Reserve</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -166,7 +176,7 @@ const st = StyleSheet.create({
   },
   mapContainer: {
     flex: 1,
-    marginTop: 30,
+    marginTop: "40%",
     padding: 10,
   },
   columnStyle: {
@@ -182,12 +192,9 @@ const st = StyleSheet.create({
   confirmationContainer: {
     position: "absolute",
     bottom: 0,
-    backgroundColor: "white",
-    flexDirection: "row",
-    alignItems: "center",
+    width: "100%",
   },
   reserveButton: {
-    flex: 1,
     width: "100%",
     height: 50,
     backgroundColor: "#095E69",
@@ -196,14 +203,22 @@ const st = StyleSheet.create({
   },
   reserveText: {
     fontFamily: "Nunito-Bold",
-    fontSize: 14,
+    fontSize: 18,
     color: "white",
   },
   detailContainer: {
-    flex: 1,
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
     backgroundColor: "#C7F8FF",
+    paddingVertical: 20,
+    paddingHorizontal: 50,
+    justifyContent: "space-between",
   },
+  detailText: {
+    fontFamily: "Nunito-Regular",
+    fontSize: 18,
+  },
+  detailTextBold: {
+    fontFamily: "Nunito-Bold",
+    fontSize: 18,
+  }
 });
