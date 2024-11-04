@@ -54,7 +54,7 @@ const ReservationPage = () => {
 
   const handleModalVisible = () => {
     setModalVisible(!modalVisible);
-  }
+  };
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
@@ -152,7 +152,10 @@ const ReservationPage = () => {
       </View>
       <View style={st.confirmationContainer}>
         <View style={st.detailContainer}>
-          <View style={{ alignItems: "center" }}>
+          <Pressable
+            style={{ alignItems: "center" }}
+            onPress={handleModalVisible}
+          >
             <Text style={st.detailText}>Arrival Time</Text>
             <Pressable onPress={handleModalVisible}>
               <Text
@@ -161,7 +164,7 @@ const ReservationPage = () => {
                 {selectedTime}
               </Text>
             </Pressable>
-          </View>
+          </Pressable>
           <View style={{ alignItems: "center" }}>
             <Text style={st.detailText}>Selected Slot</Text>
             <Text style={st.detailTextBold}>{selectedSlot}</Text>

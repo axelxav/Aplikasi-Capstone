@@ -3,6 +3,8 @@ import React from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { BlurView } from "expo-blur";
 import useSelectedTime from "@/store/selectedTimeStore";
+import { useState } from "react";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface TimePickerModalProps {
   visible: boolean;
@@ -14,36 +16,43 @@ const TimePickerModal: React.FC<TimePickerModalProps> = ({
   onClose,
 }) => {
   const { fontsLoaded } = useCustomFonts();
-  useSelectedTime((state)=>state.setSelectedTime)
+  const setSelectedTime = useSelectedTime((state) => state.setSelectedTime);
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const handleConfirm = (date: Date) => {
+    console.warn("A date has been picked: ", date);
+    setSelectedTime(date.toLocaleTimeString());
+    onClose();
+  };
 
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <Modal
-      transparent={true}
-      animationType="fade"
-      visible={visible}
-      onRequestClose={onClose}
-    >
-      <BlurView
-        style={st.overlay}
-        intensity={50} // Set the intensity of the blur effect
-        tint="systemThickMaterialDark" // You can change this to 'dark' or 'light'
+    <>
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={visible}
+        onRequestClose={onClose}
       >
-        <View style={st.container}>
-          <Text style={st.headerText}>Estimate Arrival Time</Text>
-          <Text style={st.bodyText}>Estimate when you will occupy this parking slot.</Text>
-          <Pressable onPress={onClose} style={st.confirmationButton}>
-            <Text style={st.buttonText}>Confirm</Text>
-          </Pressable>
-          <Pressable onPress={onClose} style={st.cancelButton}>
-            <Text style={st.buttonText}>Close</Text>
-          </Pressable>
-        </View>
-      </BlurView>
-    </Modal>
+        <BlurView
+          style={st.overlay}
+          intensity={50} // Set the intensity of the blur effect
+          tint="systemThickMaterialDark" // You can change this to 'dark' or 'light'
+        >
+          <DateTimePickerModal
+            isVisible={visible}
+            mode="time"
+            date={date}
+            onConfirm={handleConfirm}
+            onCancel={onClose}
+          />
+        </BlurView>
+      </Modal>
+    </>
   );
 };
 
