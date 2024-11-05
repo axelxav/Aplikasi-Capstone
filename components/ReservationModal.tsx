@@ -5,6 +5,7 @@ import useSelectedSlot from "@/store/selectedSlotStore";
 import useSelectedTime from "@/store/selectedTimeStore";
 import usePlaceStore from "@/store/placeStore";
 import { BlurView } from "expo-blur";
+import { router } from "expo-router";
 
 interface ReservationModalProps {
   visible: boolean;
@@ -24,6 +25,10 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     return null;
   }
 
+  const handleConfirmation = () => {
+    router.replace("/EntranceQr");
+  };
+
   return (
     <>
       <Modal
@@ -40,32 +45,38 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
           <View style={st.modalContainer}>
             <Text style={st.modalTitle}>Confirmation</Text>
             <Text style={st.modalText}>You will be reserving at:</Text>
-            <View style={{ flexDirection: "row", marginTop: 20 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 20,
+                alignItems: "center",
+              }}
+            >
               <View>
-                <Text style={st.modalTextBold}>Place {}</Text>
-                <Text style={st.modalTextBold}>Parking Slot {}</Text>
-                <Text style={st.modalTextBold}>Arrival Time {}</Text>
+                <Text style={st.modalTextBold}>Place</Text>
+                <Text style={st.modalTextBold}>Parking Slot</Text>
+                <Text style={st.modalTextBold}>Arrival Time</Text>
               </View>
               <View style={{ marginLeft: 20 }}>
-                <Text style={st.modalTextBold}>: {}</Text>
-                <Text style={st.modalTextBold}>: {}</Text>
-                <Text style={st.modalTextBold}>: {}</Text>
+                <Text style={st.modalTextBold}>:</Text>
+                <Text style={st.modalTextBold}>:</Text>
+                <Text style={st.modalTextBold}>:</Text>
               </View>
               <View style={{ marginLeft: 20 }}>
                 <Text
                   style={[st.modalText, { textDecorationLine: "underline" }]}
                 >
-                  {placeName} {}
+                  {placeName}
                 </Text>
                 <Text
                   style={[st.modalText, { textDecorationLine: "underline" }]}
                 >
-                  {selectedSlot} {}
+                  {selectedSlot}
                 </Text>
                 <Text
                   style={[st.modalText, { textDecorationLine: "underline" }]}
                 >
-                  {selectedTime} {}
+                  {selectedTime}
                 </Text>
               </View>
             </View>
@@ -78,7 +89,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
             </View>
 
             <View style={st.buttonContainer}>
-              <Pressable style={st.confirmButton} onPress={onClose}>
+              <Pressable style={st.confirmButton} onPress={handleConfirmation}>
                 <Text style={st.confirmButtonText}>Confirm</Text>
               </Pressable>
               <Pressable style={st.closeButton} onPress={onClose}>
@@ -101,7 +112,7 @@ const st = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    width: 300,
+    width: 350,
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 25,

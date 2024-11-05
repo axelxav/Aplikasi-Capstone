@@ -1,9 +1,9 @@
 import { Pressable, StyleSheet, Text, View, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useNavigation, Router } from "expo-router";
-import usePlaceStore from "@/store/placeStore";
+import { useNavigation, Router, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
+import usePlaceStore from "@/store/placeStore";
 import useSelectedSlot from "@/store/selectedSlotStore";
 import useSelectedTime from "@/store/selectedTimeStore";
 import TimePickerModal from "@/components/TimePickerModal";
@@ -62,7 +62,6 @@ const ReservationPage = () => {
 
   const handleReservation = () => {
     setReservationInfo(!reservationInfo);
-    
   };
 
   return (
