@@ -28,6 +28,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
   const setReservationQr = useReservationStore(
     (state) => state.setReservationQR
   );
+  const setStartCount = useReservationStore((state) => state.setStartCount);
 
   if (!fontsLoaded) {
     return null;
@@ -50,6 +51,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
         console.log("Reservation confirmed");
         console.log(user_id, selectedSlot);
         setReservationQr(data.reservation_qr);
+        setStartCount(true);
         router.navigate("/EntranceQr");
       } else {
         alert(data.error + data.message);
