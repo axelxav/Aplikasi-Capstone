@@ -20,8 +20,8 @@ import useTestingStore from "@/store/testingStore";
 const SignInPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 
-  const [username, setUsername] = useState<string>("test"); // jangan lupa dihapus
-  const [password, setPassword] = useState<string>("testpass"); // jangan lupa dihapus
+  const [username, setUsername] = useState<string>("dinda"); // jangan lupa dihapus
+  const [password, setPassword] = useState<string>("1234"); // jangan lupa dihapus
 
   const setUserInfo = useUserStore((state) => state.setUserInfo); // Zustand setter
 
@@ -49,12 +49,29 @@ const SignInPage: React.FC = () => {
 
         // Save user info to Zustand store
         setUserInfo({
+          userID: data.id,
           username: data.username,
           user_email: data.user_email,
           phone_num: data.phone_num,
           license_plate: data.license_plate,
           user_unique: data.user_unique,
         });
+
+        console.log(
+          "logged in user info:",
+          "id: ",
+          data.id,
+          "username: ",
+          data.username,
+          "user_email: ",
+          data.user_email,
+          "phone_num: ",
+          data.phone_num,
+          "license_plate: ",
+          data.license_plate,
+          "user_unique: ",
+          data.user_unique
+        );
 
         router.replace("./(tabs)/HomePage"); // Navigate to HomePage
       } else {

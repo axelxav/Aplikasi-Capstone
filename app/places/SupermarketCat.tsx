@@ -24,7 +24,7 @@ const SupermarketCat = () => {
   useEffect(() => {
     // Set custom header title
     navigation.setOptions({
-      title: "Hotel",
+      title: "Supermarket",
       headerStyle: { backgroundColor: "#76ECFC" },
     });
   }, [navigation]);
@@ -42,7 +42,7 @@ const SupermarketCat = () => {
         <View style={st.headerContainer}>
           <SearchHeader />
           <LocationOpt />
-          <Text style={st.headerText}>Mall Category</Text>
+          <Text style={st.headerText}>Supermarket Category</Text>
         </View>
         <View style={st.locationContainer}>
           <LocationCard

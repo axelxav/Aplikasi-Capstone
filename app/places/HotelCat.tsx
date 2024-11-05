@@ -42,7 +42,7 @@ const HotelCat = () => {
         <View style={st.headerContainer}>
           <SearchHeader />
           <LocationOpt />
-          <Text style={st.headerText}>Mall Category</Text>
+          <Text style={st.headerText}>Hotel Category</Text>
         </View>
         <View style={st.locationContainer}>
           <LocationCard
