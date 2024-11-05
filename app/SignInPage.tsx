@@ -49,7 +49,7 @@ const SignInPage: React.FC = () => {
 
         // Save user info to Zustand store
         setUserInfo({
-          userID: data.id,
+          id: data.id,
           username: data.username,
           user_email: data.user_email,
           phone_num: data.phone_num,
