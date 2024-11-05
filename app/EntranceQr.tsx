@@ -6,6 +6,7 @@ import useSelectedSlot from "@/store/selectedSlotStore";
 import useSelectedTime from "@/store/selectedTimeStore";
 import { useNavigation } from "expo-router";
 import QRCode from "react-native-qrcode-svg";
+import useReservationStore from "@/store/reservationStore";
 
 const EntranceQr = () => {
   const navigation = useNavigation();
@@ -13,6 +14,7 @@ const EntranceQr = () => {
   const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
   const selectedTime = useSelectedTime((state) => state.selectedTime);
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
+  const reservation_qr = useReservationStore((state) => state.reservation_qr);
 
   if (!fontsLoaded) {
     return null;
@@ -37,7 +39,7 @@ const EntranceQr = () => {
           <Text style={st.qrText}>Scan this qr code at entrance gate</Text>
         </View>
         <View style={st.qrCodeStyle}>
-          <QRCode value={"axel"} size={250} />
+          <QRCode value={reservation_qr} size={250} />
         </View>
         <View>
           <View style={st.detailContainer}>

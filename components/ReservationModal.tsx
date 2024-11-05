@@ -8,6 +8,7 @@ import { BlurView } from "expo-blur";
 import { router } from "expo-router";
 import useTestingStore from "@/store/testingStore";
 import useUserStore from "@/store/userStore";
+import useReservationStore from "@/store/reservationStore";
 
 interface ReservationModalProps {
   visible: boolean;
@@ -24,32 +25,35 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
   const placeName = usePlaceStore((state) => state.placeName);
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
   const user_id = useUserStore((state) => state.userInfo.id);
+  const setReservationQr = useReservationStore(
+    (state) => state.setReservationQR
+  );
 
   if (!fontsLoaded) {
     return null;
   }
 
   const handleConfirmation = async () => {
-    
     try {
       const response = await fetch(`http://${iplocalhost}:5000/reservation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user_id, selectedSlot })
-      })
+        body: JSON.stringify({ user_id, selectedSlot }),
+      });
 
       const data = await response.json();
 
       if (response.ok) {
         alert(data.message);
-        console.log(user_id, selectedSlot);
         console.log("Reservation confirmed");
+        console.log(user_id, selectedSlot);
+        setReservationQr(data.reservation_qr);
+        router.navigate("/EntranceQr");
       } else {
-        alert(data.error);
+        alert(data.error + data.message);
       }
-      
     } catch (error) {
       console.log(error);
     }
