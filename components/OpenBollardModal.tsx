@@ -5,6 +5,7 @@ import { BlurView } from "expo-blur";
 import useTestingStore from "@/store/testingStore";
 import useUserStore from "@/store/userStore";
 import { router } from "expo-router";
+import useReservationStore from "@/store/reservationStore";
 
 interface OpenBollardModalProps {
   visible: boolean;
@@ -18,6 +19,7 @@ const OpenBollardModal: React.FC<OpenBollardModalProps> = ({
   const { fontsLoaded } = useCustomFonts();
   const user_id = useUserStore((state) => state.userInfo.id);
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
+  const setStartCount = useReservationStore((state) => state.setStartCount);
 
   if (!fontsLoaded) {
     return null;
@@ -37,6 +39,7 @@ const OpenBollardModal: React.FC<OpenBollardModalProps> = ({
 
       if (response.ok) {
         console.log("Bollard opened");
+        setStartCount(true);
         onClose();
         router.navigate("/ExitQr");
       } else {

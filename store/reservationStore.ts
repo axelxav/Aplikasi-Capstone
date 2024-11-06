@@ -7,6 +7,8 @@ interface ReservationStore {
   setStartCount: (start: boolean) => void;
   hasArrived: boolean;
   setHasArrived: (arrived: boolean) => void;
+  hasFinished: boolean;
+  setHasFinished: (open: boolean) => void;
 }
 
 const useReservationStore = create<ReservationStore>((set) => ({
@@ -16,6 +18,8 @@ const useReservationStore = create<ReservationStore>((set) => ({
   setStartCount: (start) => set({ startCount: start }),
   hasArrived: false,
   setHasArrived: (arrived) => set({ hasArrived: arrived }),
+  hasFinished: false,
+  setHasFinished: (open) => set({ hasFinished: open }),
 }));
 
 export default useReservationStore;
