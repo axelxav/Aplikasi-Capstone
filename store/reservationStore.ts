@@ -5,6 +5,8 @@ interface ReservationStore {
   setReservationQR: (qr: string) => void;
   startCount: boolean;
   setStartCount: (start: boolean) => void;
+  hasArrived: boolean;
+  setHasArrived: (arrived: boolean) => void;
 }
 
 const useReservationStore = create<ReservationStore>((set) => ({
@@ -12,6 +14,8 @@ const useReservationStore = create<ReservationStore>((set) => ({
   setReservationQR: (qr) => set({ reservation_qr: qr }),
   startCount: false,
   setStartCount: (start) => set({ startCount: start }),
+  hasArrived: false,
+  setHasArrived: (arrived) => set({ hasArrived: arrived }),
 }));
 
 export default useReservationStore;

@@ -10,7 +10,7 @@ import useReservationStore from "@/store/reservationStore";
 import useUserStore from "@/store/userStore";
 import useTestingStore from "@/store/testingStore";
 
-const EntranceQr = () => {
+const ExitQr = () => {
   const navigation = useNavigation();
   const placeName = usePlaceStore((state) => state.placeName);
   const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
@@ -32,90 +32,29 @@ const EntranceQr = () => {
     });
   }, [navigation, placeName]);
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    if (startCount && !hasArrived) {
-      interval = setInterval(() => {
-        handleFetchingArrival();
-      }, 2000);
-    }
-
-    return () => clearInterval(interval);
-  }, [startCount, hasArrived]); // dependencies to control fetching
-
-  const handleFetchingArrival = async () => {
-    try {
-      const response = await fetch(
-        `http://${iplocalhost}:5000/hasArrived?user_id=${user_id}`,
-        { method: "GET" }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setHasArrived(data.has_arrived); // Update hasArrived in Zustand
-        console.log("hasArrived:", data.has_arrived); // Log for debugging
-      } else {
-        console.log(data.error + data.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (hasArrived) {
-      console.log("User has arrived. Stopping the counter.");
-      setStartCount(false); // Stop counting when arrived
-      router.push("/OpenBollard");
-    }
-  }, [hasArrived]); // Handles what to do when hasArrived changes
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
       <View style={st.headerContainer}>
-        <Text style={st.headerText}>Entrance</Text>
+        <Text style={st.headerText}>Exit</Text>
       </View>
 
       <View style={st.qrContainer}>
         <View style={{ marginTop: 20, padding: 10 }}>
-          <Text style={st.qrText}>Scan this QR code at entrance gate</Text>
+          <Text style={st.qrText}>Scan this QR code at exit gate</Text>
         </View>
         <View style={st.qrCodeStyle}>
           <QRCode value={reservation_qr} size={250} />
         </View>
-        <View>
-          <View style={st.detailContainer}>
-            <View style={{ alignItems: "center" }}>
-              <Text style={st.detailText}>Arrival Time</Text>
-              <View>
-                <Text
-                  style={[
-                    st.detailTextBold,
-                    { textDecorationLine: "underline" },
-                  ]}
-                >
-                  {selectedTime}
-                </Text>
-              </View>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text style={st.detailText}>Slot</Text>
-              <Text style={st.detailTextBold}>{selectedSlot}</Text>
-            </View>
-          </View>
-        </View>
+        <Text style={st.qrText}>Scan this code at exit gate</Text>
+        <Text style={[st.qrText, { textAlign: "center", fontSize: 14, marginTop: 20, }]}>
+          to confirm your billing and proceed your payment
+        </Text>
       </View>
     </SafeAreaView>
   );
 };
 
-export default EntranceQr;
+export default ExitQr;
 
 const st = StyleSheet.create({
   container: {
@@ -145,6 +84,7 @@ const st = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     width: "90%",
+    padding: 30,
   },
   qrText: {
     fontSize: 18,
