@@ -15,12 +15,13 @@ interface PaymentModalProps {
 
 const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
   const { fontsLoaded } = useCustomFonts();
+  const hasArrived = useReservationStore((state) => state.hasArrived);
   const setHasArrived = useReservationStore((state) => state.setHasArrived);
+  const hasFinished = useReservationStore((state) => state.hasFinished);
   const setHasFinished = useReservationStore((state) => state.setHasFinished);
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
-  const selectedSlot =  useSelectedSlot((state) => state.selectedSlot);
+  const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
   const user_id = useUserStore((state) => state.userInfo.id);
-  
 
   if (!fontsLoaded) {
     return null;
@@ -28,31 +29,32 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
 
   const handleConfirmation = async () => {
     try {
-      const response = await fetch(`http://${iplocalhost}:5000/finishReservation`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user_id }),
-
-      })
+      const response = await fetch(
+        `http://${iplocalhost}:5000/finishReservation`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Reservation Finished");
         setHasArrived(false);
         setHasFinished(false);
+        console.log("Reservation Finished", hasArrived, hasFinished);
         onClose();
         router.replace("/HomePage");
       } else {
         console.log(data.error + data.message);
       }
-
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <>
