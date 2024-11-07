@@ -7,6 +7,7 @@ import useTestingStore from "@/store/testingStore";
 import { router } from "expo-router";
 import useSelectedSlot from "@/store/selectedSlotStore";
 import useUserStore from "@/store/userStore";
+import useOtsStore from "@/store/otsStore";
 
 interface PaymentModalProps {
   visible: boolean;
@@ -20,8 +21,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
   const hasFinished = useReservationStore((state) => state.hasFinished);
   const setHasFinished = useReservationStore((state) => state.setHasFinished);
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
-  const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
   const user_id = useUserStore((state) => state.userInfo.id);
+  const setValidationCount = useOtsStore((state) => state.setValidationCount);
 
   if (!fontsLoaded) {
     return null;
@@ -45,6 +46,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
       if (response.ok) {
         setHasArrived(false);
         setHasFinished(false);
+        setValidationCount(true);
         console.log("Reservation Finished", hasArrived, hasFinished);
         onClose();
         router.replace("/HomePage");
