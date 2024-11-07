@@ -14,6 +14,7 @@ import { router } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import QrCodeModal from "@/components/QrCodeModal";
 import useUserStore from "@/store/userStore";
+import useOtsStore from "@/store/otsStore";
 
 const UserPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
@@ -22,6 +23,7 @@ const UserPage: React.FC = () => {
   const username = useUserStore((state) => state.userInfo.username);
   const user_email = useUserStore((state) => state.userInfo.user_email);
   const phone_num = useUserStore((state) => state.userInfo.phone_num);
+  const setValidationCount = useOtsStore((state) => state.setValidationCount);
 
   if (!fontsLoaded) {
     return null;
@@ -37,6 +39,7 @@ const UserPage: React.FC = () => {
 
   const handleSignOut = () => {
     console.log("Sign Out Button Pressed");
+    setValidationCount(false);
     router.replace("../SignInPage");
   };
 

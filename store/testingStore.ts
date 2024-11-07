@@ -6,9 +6,9 @@ interface TestingStore {
 
 const useTestingStore = create<TestingStore>((set) => ({
   // ip rumah
-  iplocalhost: '192.168.100.121'
+  // iplocalhost: '192.168.100.121'
   
-  // iplocalhost: '172.20.10.5',
+  iplocalhost: '10.200.86.184',
 }));
 
 export default useTestingStore

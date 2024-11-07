@@ -11,21 +11,20 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { router } from "expo-router";
 import useUserStore from "../store/userStore";
 import useTestingStore from "@/store/testingStore";
+import useOtsStore from "@/store/otsStore";
 
 const SignInPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
-
-  const [username, setUsername] = useState<string>("dinda"); // jangan lupa dihapus
-  const [password, setPassword] = useState<string>("1234"); // jangan lupa dihapus
-
+  const [username, setUsername] = useState<string>("test"); // jangan lupa dihapus
+  const [password, setPassword] = useState<string>("testpass"); // jangan lupa dihapus
   const setUserInfo = useUserStore((state) => state.setUserInfo); // Zustand setter
-
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
+  const setValidationCount = useOtsStore((state) => state.setValidationCount);
 
   if (!fontsLoaded) {
     return null;
@@ -72,6 +71,8 @@ const SignInPage: React.FC = () => {
           "user_unique: ",
           data.user_unique
         );
+
+        setValidationCount(true); // Update validationCount in Zustand
 
         router.replace("./(tabs)/HomePage"); // Navigate to HomePage
       } else {
