@@ -48,6 +48,7 @@ const UserPage: React.FC = () => {
   };
 
   const handleEditProfile = () => {
+    setValidationCount(false);
     router.push("../EditPage");
   };
 

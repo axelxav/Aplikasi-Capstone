@@ -14,13 +14,35 @@ import React, { useState } from "react";
 import { router, useNavigation } from "expo-router";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { useEffect } from "react";
-import ConfirmationModal from "@/components/ConfirmationModal"; // Import the modal component
+import ConfirmationModal from "@/components/ConfirmationModal";
+import useUserStore from "@/store/userStore";
+import useOtsStore from "@/store/otsStore";
+import useTestingStore from "@/store/testingStore";
 
 const EditPage = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const navigation = useNavigation();
 
-  const [isModalVisible, setModalVisible] = useState(false); // State for modal visibility
+  const user_id = useUserStore((state) => state.userInfo.id);
+  const username = useUserStore((state) => state.userInfo.username);
+  const password = useUserStore((state) => state.userInfo.password);
+  const email = useUserStore((state) => state.userInfo.user_email);
+  const phone_num = useUserStore((state) => state.userInfo.phone_num);
+  const license_plate = useUserStore((state) => state.userInfo.license_plate);
+  const iplocalhost = useTestingStore((state) => state.iplocalhost);
+
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
+
+  const setValidationCount = useOtsStore((state) => state.setValidationCount);
+
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const [newUsername, setNewUsername] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [newEmail, setNewEmail] = useState<string>("");
+  const [newPhoneNum, setNewPhoneNum] = useState<string>("");
+  const [newLicensePlate, setNewLicensePlate] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   if (!fontsLoaded) {
     return null;
@@ -34,17 +56,102 @@ const EditPage = () => {
   }, [navigation]);
 
   const handleCancelButton = () => {
+    setValidationCount(true);
     setModalVisible(true); // Show the modal when cancel is pressed
   };
 
   const confirmCancel = () => {
     console.log("Cancel Confirmed");
+    setValidationCount(true);
     setModalVisible(false); // Hide the modal
     router.replace("../UserPage"); // Navigate away
   };
 
   const dismissModal = () => {
     setModalVisible(false); // Hide the modal if canceled
+  };
+
+  const handleConfirmButton = async () => {
+    console.log(
+      newUsername,
+      newPassword,
+      newEmail,
+      newPhoneNum,
+      newLicensePlate
+    );
+
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match");
+      setNewPassword("");
+      return;
+    }
+
+    if (newPhoneNum.length > 0) {
+      if (!newPhoneNum.startsWith("62")) {
+        alert("Phone number must start with '62'");
+        setNewPhoneNum("");
+        return;
+      }
+    }
+
+    try {
+      const response = await fetch(`http://${iplocalhost}:5000/editProfile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id,
+          newUsername,
+          newPassword,
+          newEmail,
+          newPhoneNum,
+          newLicensePlate,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("User profile edited successfully!");
+        if (newUsername.length > 0) {
+          setUserInfo({
+            ...useUserStore.getState().userInfo,
+            username: newUsername,
+          });
+        }
+        if (newPassword.length > 0) {
+          setUserInfo({
+            ...useUserStore.getState().userInfo,
+            password: newPassword,
+          });
+        }
+        if (newEmail.length > 0) {
+          setUserInfo({
+            ...useUserStore.getState().userInfo,
+            user_email: newEmail,
+          });
+        }
+        if (newPhoneNum.length > 0) {
+          setUserInfo({
+            ...useUserStore.getState().userInfo,
+            phone_num: newPhoneNum,
+          });
+        }
+        if (newLicensePlate.length > 0) {
+          setUserInfo({
+            ...useUserStore.getState().userInfo,
+            license_plate: newLicensePlate,
+          });
+        }
+
+        setValidationCount(true);
+        router.replace("../UserPage");
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -69,18 +176,50 @@ const EditPage = () => {
           </View>
           <View style={st.formContainer}>
             <Text style={st.textStyle}>Username</Text>
-            <TextInput style={st.userInput} />
+            <TextInput
+              style={st.userInput}
+              placeholder={username}
+              value={newUsername}
+              onChangeText={setNewUsername}
+            />
             <Text style={st.textStyle}>Password</Text>
-            <TextInput style={st.userInput} />
+            <TextInput
+              style={st.userInput}
+              secureTextEntry
+              placeholder={password}
+              value={newPassword}
+              onChangeText={setNewPassword}
+            />
             <Text style={st.textStyle}>Confirm Password</Text>
-            <TextInput style={st.userInput} />
+            <TextInput
+              style={st.userInput}
+              secureTextEntry
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
             <Text style={st.textStyle}>Email</Text>
-            <TextInput style={st.userInput} />
+            <TextInput
+              style={st.userInput}
+              placeholder={email}
+              value={newEmail}
+              onChangeText={setNewEmail}
+            />
             <Text style={st.textStyle}>Phone Number</Text>
-            <TextInput style={st.userInput} keyboardType="phone-pad" />
+            <TextInput
+              style={st.userInput}
+              keyboardType="phone-pad"
+              placeholder={phone_num}
+              value={newPhoneNum}
+              onChangeText={setNewPhoneNum}
+            />
             <Text style={st.textStyle}>License Plate</Text>
-            <TextInput style={st.userInput} />
-            <Pressable style={st.buttonConfirm}>
+            <TextInput
+              style={st.userInput}
+              placeholder={license_plate}
+              value={newLicensePlate}
+              onChangeText={setNewLicensePlate}
+            />
+            <Pressable style={st.buttonConfirm} onPress={handleConfirmButton}>
               <Text style={st.buttonText}>Confirm Edit</Text>
             </Pressable>
             <Pressable style={st.buttonCancel} onPress={handleCancelButton}>
