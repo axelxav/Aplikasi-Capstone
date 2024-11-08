@@ -20,8 +20,8 @@ import useOtsStore from "@/store/otsStore";
 
 const SignInPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
-  const [username, setUsername] = useState<string>("test"); // jangan lupa dihapus
-  const [password, setPassword] = useState<string>("testpass"); // jangan lupa dihapus
+  const [username, setUsername] = useState<string>("Axel"); // jangan lupa dihapus
+  const [password, setPassword] = useState<string>("1234"); // jangan lupa dihapus
   const setUserInfo = useUserStore((state) => state.setUserInfo); // Zustand setter
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
   const setValidationCount = useOtsStore((state) => state.setValidationCount);
@@ -50,6 +50,7 @@ const SignInPage: React.FC = () => {
         setUserInfo({
           id: data.id,
           username: data.username,
+          password: data.password,
           user_email: data.user_email,
           phone_num: data.phone_num,
           license_plate: data.license_plate,
