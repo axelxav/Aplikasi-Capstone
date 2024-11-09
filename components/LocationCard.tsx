@@ -28,12 +28,16 @@ interface Places {
 }
 
 const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
+  const { fontsLoaded } = useCustomFonts();
+
   const [places, setPlaces] = useState<Places[]>([]);
   const [loading, setLoading] = useState(true);
-  const { fontsLoaded } = useCustomFonts();
   const [error, setError] = useState("");
+
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
-  const setPlaceName = usePlaceStore((state)=>state.setPlaceName)
+
+  const setPlaceName = usePlaceStore((state) => state.setPlaceName);
+  const setPlaceId = usePlaceStore((state) => state.setPlaceId);
 
   const fetchPlaces = async () => {
     try {
@@ -64,17 +68,18 @@ const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
     return <Text>{error}</Text>;
   }
 
-  const handleReserve = (placeName: string) => {
+  const handleReserve = (placeName: string, placeId: number) => {
     router.push("/ReservationPage");
-    setPlaceName(placeName)
-  }
+    setPlaceId(placeId);
+    setPlaceName(placeName);
+  };
 
   return (
     <FlatList
       data={places}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <Pressable onPress={() => handleReserve(item.places_name)}>
+        <Pressable onPress={() => handleReserve(item.places_name, item.id)}>
           <SafeAreaView style={st.locationBox}>
             <View style={st.placeImageContainer}>
               <Image
