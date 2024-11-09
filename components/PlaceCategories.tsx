@@ -4,7 +4,6 @@ import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 
-
 const PlaceCategories = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 

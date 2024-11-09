@@ -9,6 +9,7 @@ import { router } from "expo-router";
 import useTestingStore from "@/store/testingStore";
 import useUserStore from "@/store/userStore";
 import useReservationStore from "@/store/reservationStore";
+import useOtsStore from "@/store/otsStore";
 
 interface ReservationModalProps {
   visible: boolean;
@@ -29,6 +30,8 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
     (state) => state.setReservationQR
   );
   const setStartCount = useReservationStore((state) => state.setStartCount);
+
+  const setValidationCount = useOtsStore((state) => state.setValidationCount);
 
   if (!fontsLoaded) {
     return null;
@@ -52,6 +55,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
         console.log(user_id, selectedSlot);
         setReservationQr(data.reservation_qr);
         setStartCount(true);
+        setValidationCount(false);
         router.navigate("/EntranceQr");
       } else {
         alert(data.error + data.message);

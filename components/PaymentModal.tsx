@@ -5,9 +5,9 @@ import { useCustomFonts } from "@/hooks/useCustomFonts";
 import useReservationStore from "@/store/reservationStore";
 import useTestingStore from "@/store/testingStore";
 import { router } from "expo-router";
-import useSelectedSlot from "@/store/selectedSlotStore";
 import useUserStore from "@/store/userStore";
 import useOtsStore from "@/store/otsStore";
+import usePlaceStore from "@/store/placeStore";
 
 interface PaymentModalProps {
   visible: boolean;
@@ -16,6 +16,7 @@ interface PaymentModalProps {
 
 const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
   const { fontsLoaded } = useCustomFonts();
+
   const hasArrived = useReservationStore((state) => state.hasArrived);
   const setHasArrived = useReservationStore((state) => state.setHasArrived);
   const hasFinished = useReservationStore((state) => state.hasFinished);
@@ -23,10 +24,33 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
   const iplocalhost = useTestingStore((state) => state.iplocalhost);
   const user_id = useUserStore((state) => state.userInfo.id);
   const setValidationCount = useOtsStore((state) => state.setValidationCount);
+  const placeId = usePlaceStore((state) => state.placeId);
 
   if (!fontsLoaded) {
     return null;
   }
+
+  const handleUpdateHistory = async () => {
+    try {
+      const response = await fetch(`http://${iplocalhost}:5000/updateHistory`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_id, placeId }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("History Updated");
+      } else {
+        console.log(data.error + data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleConfirmation = async () => {
     try {
@@ -44,6 +68,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
       const data = await response.json();
 
       if (response.ok) {
+        handleUpdateHistory();
         setHasArrived(false);
         setHasFinished(false);
         setValidationCount(true);
