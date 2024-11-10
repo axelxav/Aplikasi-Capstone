@@ -197,8 +197,8 @@ const ReservationPage = () => {
           <Text style={st.reserveText}>Reserve</Text>
         </Pressable>
       </View>
+      <ReservationModal visible={reservationInfo} onClose={handleReservation} />
       <TimePickerModal visible={modalVisible} onClose={handleModalVisible} />
-      <ReservationModal visible={reservationInfo} onClose={handleReservation} />      
     </SafeAreaView>
   );
 };
