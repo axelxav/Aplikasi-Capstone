@@ -57,6 +57,7 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
         setStartCount(true);
         setValidationCount(false);
         router.navigate("/EntranceQr");
+        onClose();
       } else {
         alert(data.error + data.message);
       }
