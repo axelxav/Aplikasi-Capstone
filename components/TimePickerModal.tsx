@@ -1,9 +1,8 @@
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Modal, Pressable, StyleSheet, Text, View, Alert } from "react-native";
+import React, { useState } from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { BlurView } from "expo-blur";
 import useSelectedTime from "@/store/selectedTimeStore";
-import { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface TimePickerModalProps {
@@ -17,13 +16,35 @@ const TimePickerModal: React.FC<TimePickerModalProps> = ({
 }) => {
   const { fontsLoaded } = useCustomFonts();
   const setSelectedTime = useSelectedTime((state) => state.setSelectedTime);
-  const [open, setOpen] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date()); // Default to current time
 
-  const handleConfirm = (date: Date) => {
-    // console.warn("A date has been picked: ", date);
-    console.log("A date has been picked: ", date);
-    setSelectedTime(date.toLocaleTimeString());
+  // Calculate minimum and maximum selectable time
+  const currentTime = new Date();
+  const minTime = currentTime; // Minimum should be now
+  const maxTime = new Date();
+  maxTime.setHours(maxTime.getHours() + 4); // Maximum should be 4 hours from now
+
+  const handleConfirm = (pickedDate: Date) => {
+    // Check if the selected date is within the allowed range
+    if (pickedDate.getTime() < minTime.getTime()) {
+      Alert.alert("Invalid Time", "You cannot select a time in the past.");
+      onClose();
+      return; // Prevent selecting past times
+    }
+
+    if (pickedDate.getTime() > maxTime.getTime()) {
+      Alert.alert(
+        "Invalid Time",
+        "You can only select a time within 4 hours from now."
+      );
+      onClose();
+      return; // Prevent selecting times beyond 4 hours
+    }
+
+    console.log("A date has been picked: ", pickedDate);
+    setSelectedTime(
+      pickedDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    ); // Format the time
     onClose();
   };
 
@@ -32,28 +53,16 @@ const TimePickerModal: React.FC<TimePickerModalProps> = ({
   }
 
   return (
-    <>
-      <Modal
-        transparent={true}
-        animationType="fade"
-        visible={visible}
-        onRequestClose={onClose}
-      >
-        <BlurView
-          style={st.overlay}
-          intensity={50} // Set the intensity of the blur effect
-          tint="systemThickMaterialDark" // You can change this to 'dark' or 'light'
-        >
-          <DateTimePickerModal
-            isVisible={visible}
-            mode="time"
-            date={date}
-            onConfirm={handleConfirm}
-            onCancel={() => { onClose(); setSelectedTime("Select Time"); }}
-          />
-        </BlurView>
-      </Modal>
-    </>
+    <DateTimePickerModal
+      isVisible={visible}
+      mode="time"
+      date={date}
+      onConfirm={handleConfirm}
+      onCancel={() => {
+        onClose();
+        setSelectedTime("Select Time");
+      }}
+    />
   );
 };
 
@@ -64,43 +73,5 @@ const st = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  container: {
-    width: 300,
-    padding: 20,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  confirmationButton: {
-    backgroundColor: "#32A4A4",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    width: "60%",
-    alignItems: "center",
-  },
-  cancelButton: {
-    backgroundColor: "#E24A4A",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    width: "60%",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontFamily: "Nunito-Bold",
-    fontSize: 16,
-  },
-  headerText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: 18,
-    marginBottom: 30,
-  },
-  bodyText: {
-    fontFamily: "Nunito-Regular",
-    fontSize: 14,
-    marginBottom: 30,
   },
 });
