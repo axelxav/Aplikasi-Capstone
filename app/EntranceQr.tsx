@@ -193,7 +193,13 @@ const EntranceQr = () => {
       <View style={st.counter}>
         <View>
           <Text>Time to Arrival</Text>
-          <View style={{ flexDirection: "row", marginTop: 10 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 10,
+              opacity: startSecondCount ? 0.1 : 1,
+            }}
+          >
             <CountdownTimer
               duration={countdown}
               isPlaying={true}
@@ -203,7 +209,13 @@ const EntranceQr = () => {
         </View>
         <View>
           <Text>Late Tolerance</Text>
-          <View style={{ flexDirection: "row", marginTop: 10 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 10,
+              opacity: startSecondCount ? 1 : 0.1,
+            }}
+          >
             <CountdownTimer
               duration={10}
               isPlaying={startSecondCount}
