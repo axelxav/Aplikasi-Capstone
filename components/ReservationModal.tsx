@@ -52,11 +52,15 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
       if (response.ok) {
         alert(data.message);
         console.log("Reservation confirmed");
-        console.log(user_id, selectedSlot);
+        console.log("user id: ", user_id, "selected slot: ", selectedSlot, "time af arrival: ", selectedTime);
         setReservationQr(data.reservation_qr);
         setStartCount(true);
         setValidationCount(false);
         router.navigate("/EntranceQr");
+        // print current hour and minute in console
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes();
+        console.log("Current time: ", time);
         onClose();
       } else {
         alert(data.error + data.message);

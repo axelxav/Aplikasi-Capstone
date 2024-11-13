@@ -1,7 +1,6 @@
-import { Modal, Pressable, StyleSheet, Text, View, Alert } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
-import { BlurView } from "expo-blur";
 import useSelectedTime from "@/store/selectedTimeStore";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -43,7 +42,11 @@ const TimePickerModal: React.FC<TimePickerModalProps> = ({
 
     console.log("A date has been picked: ", pickedDate);
     setSelectedTime(
-      pickedDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      pickedDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
     ); // Format the time
     onClose();
   };
