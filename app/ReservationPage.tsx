@@ -8,6 +8,7 @@ import useSelectedSlot from "@/store/selectedSlotStore";
 import useSelectedTime from "@/store/selectedTimeStore";
 import TimePickerModal from "@/components/TimePickerModal";
 import ReservationModal from "@/components/ReservationModal";
+import useTestingStore from "@/store/testingStore";
 
 const ReservationPage = () => {
   const placeName = usePlaceStore((state) => state.placeName);
@@ -17,10 +18,14 @@ const ReservationPage = () => {
     (state) => state.setSelectedSlot as (slot: string | null) => void
   );
   const selectedSlot = useSelectedSlot((state) => state.selectedSlot);
+  const iplocalhost = useTestingStore((state) => state.iplocalhost);
   const selectedTime = useSelectedTime((state) => state.selectedTime);
   const setSelectedTime = useSelectedTime((state) => state.setSelectedTime);
   const [modalVisible, setModalVisible] = useState(false);
   const [reservationInfo, setReservationInfo] = useState(false);
+  const [slotAvailability, setSlotAvailability] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   // State to track the currently selected slot
   const [currentSelectedSlot, setCurrentSelectedSlot] = useState<string | null>(
@@ -39,6 +44,19 @@ const ReservationPage = () => {
     });
     setSelectedTime("Select Time");
     setSelectedSlot("Select Slot");
+
+    const fetchSlotAvailability = async () => {
+      try {
+        const response = await fetch(
+          `http://${iplocalhost}:5000/checkSlotAvailability`
+        );
+        const data = await response.json();
+        setSlotAvailability(data);
+      } catch (error) {
+        Alert.alert("Error", "Failed to fetch slot availability");
+      }
+    };
+    fetchSlotAvailability();
   }, [navigation]);
 
   const handleSlotSelection = (slotId: string) => {
@@ -117,11 +135,14 @@ const ReservationPage = () => {
               <Pressable
                 key={slot}
                 style={[
-                  st.availableBox,
+                  slotAvailability[slot] ? st.reservedBox : st.availableBox,
                   { marginBottom: 30 },
-                  currentSelectedSlot === slot && st.selectedBox, // Change style if selected
+                  currentSelectedSlot === slot && st.selectedBox,
                 ]}
-                onPress={() => handleSlotSelection(slot)}
+                onPress={() =>
+                  !slotAvailability[slot] && handleSlotSelection(slot)
+                }
+                disabled={slotAvailability[slot]}
               ></Pressable>
             ))}
           </View>
@@ -131,11 +152,14 @@ const ReservationPage = () => {
               <Pressable
                 key={slot}
                 style={[
-                  st.availableBox,
+                  slotAvailability[slot] ? st.reservedBox : st.availableBox,
                   { marginBottom: 30 },
                   currentSelectedSlot === slot && st.selectedBox, // Change style if selected
                 ]}
-                onPress={() => handleSlotSelection(slot)}
+                onPress={() =>
+                  !slotAvailability[slot] && handleSlotSelection(slot)
+                }
+                disabled={slotAvailability[slot]}
               ></Pressable>
             ))}
           </View>
