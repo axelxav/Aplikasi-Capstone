@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import useTestingStore from "@/store/testingStore";
 import { router } from "expo-router";
 import usePlaceStore from "@/store/placeStore";
+import useSearchStore from "@/store/searchStore";
 
 interface LocationCardProps {
   type?: string;
@@ -38,6 +39,8 @@ const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
 
   const setPlaceName = usePlaceStore((state) => state.setPlaceName);
   const setPlaceId = usePlaceStore((state) => state.setPlaceId);
+
+  const searchQuery = useSearchStore((state) => state.searchQuery);
 
   const fetchPlaces = async () => {
     try {
@@ -68,6 +71,10 @@ const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
     return <Text>{error}</Text>;
   }
 
+  const filteredPlaces = places.filter((place) =>
+    place.places_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
   const handleReserve = (placeName: string, placeId: number) => {
     router.push("/ReservationPage");
     setPlaceId(placeId);
@@ -76,7 +83,7 @@ const LocationCard: React.FC<LocationCardProps> = ({ type, address }) => {
 
   return (
     <FlatList
-      data={places}
+      data={searchQuery ? filteredPlaces : places}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <Pressable onPress={() => handleReserve(item.places_name, item.id)}>

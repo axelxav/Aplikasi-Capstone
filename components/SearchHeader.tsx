@@ -3,9 +3,12 @@ import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import { useState } from "react";
+import useSearchStore from "@/store/searchStore";
 
 const SearchHeader = () => {
-  const [input, setInput] = useState("");
+  const searchQuery = useSearchStore((state) => state.searchQuery);
+  const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
+
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
 
   if (!fontsLoaded) {
@@ -13,7 +16,7 @@ const SearchHeader = () => {
   }
 
   const handleCancelButton = () => {
-    setInput("");
+    setSearchQuery("");
   };
 
   return (
@@ -24,8 +27,8 @@ const SearchHeader = () => {
           placeholder="Enter name of a destination!"
           placeholderTextColor={"grey"}
           style={[st.userInput]}
-          value={input}
-          onChangeText={setInput}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
         />
         <Pressable onPress={handleCancelButton}>
           <Text style={st.cancelText}>Cancel</Text>

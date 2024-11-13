@@ -15,11 +15,13 @@ import LocationOpt from "@/components/LocationOpt";
 import { useCustomFonts } from "@/hooks/useCustomFonts";
 import LocationCard from "@/components/LocationCard";
 import useLocationStore from "@/store/locationStore";
+import useSearchStore from "@/store/searchStore";
 
 const HospitalCat = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
   const navigation = useNavigation();
   const selectedLocation = useLocationStore((state) => state.selectedLocation);
+  const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
 
   useEffect(() => {
     // Set custom header title
@@ -27,6 +29,7 @@ const HospitalCat = () => {
       title: "Hospital",
       headerStyle: { backgroundColor: "#76ECFC" },
     });
+    setSearchQuery("");
   }, [navigation]);
 
   if (!fontsLoaded) {

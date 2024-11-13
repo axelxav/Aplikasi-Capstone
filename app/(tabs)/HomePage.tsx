@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  Text,
 } from "react-native";
 import React, { useEffect } from "react";
 import SearchHeader from "@/components/SearchHeader";
@@ -19,8 +20,17 @@ import usePlaceStore from "@/store/placeStore";
 import { router } from "expo-router";
 import useTestingStore from "@/store/testingStore";
 import useReservationStore from "@/store/reservationStore";
+import useSearchStore from "@/store/searchStore";
+import LocationCard from "@/components/LocationCard";
+import { useNavigation } from "expo-router";
 
 const HomePage = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    setSearchQuery("");
+  }, [navigation]);
+
   const validationCount = useOtsStore((state) => state.validationCount);
   const setValidationCount = useOtsStore((state) => state.setValidationCount);
   const user_id = useUserStore((state) => state.userInfo.id);
@@ -31,6 +41,8 @@ const HomePage = () => {
   const setReservationQr = useReservationStore(
     (state) => state.setReservationQR
   );
+  const searchQuery = useSearchStore((state) => state.searchQuery);
+  const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
 
   let errorFetching = "";
 
@@ -80,22 +92,40 @@ const HomePage = () => {
         style={{ flex: 1 }}
         behavior={Platform.OS === "android" ? "height" : "padding"} // Use 'height' for Android
       >
+        <View style={st.headerContainer}>
+          <SearchHeader />
+          <LocationOpt />
+        </View>
         <ScrollView
           contentContainerStyle={st.scrollContainer}
           keyboardShouldPersistTaps="handled" // Keep keyboard open on tap
           showsVerticalScrollIndicator={false} // Hide scroll indicator
         >
-          <View style={st.headerContainer}>
-            <SearchHeader />
-            <LocationOpt />
-          </View>
-          <View style={st.bodyContainer}>
+          <View
+            style={[
+              st.bodyContainer,
+              { display: searchQuery ? "none" : "flex" },
+            ]}
+          >
             <OtsCode />
           </View>
-          <View style={st.catContainer}>
+          <View
+            style={[
+              st.catContainer,
+              { display: searchQuery ? "none" : "flex" },
+            ]}
+          >
             <PlaceCategories />
           </View>
         </ScrollView>
+        <View
+          style={[
+            st.locationContainer,
+            { display: searchQuery ? "flex" : "none" },
+          ]}
+        >
+          <LocationCard type="" address="" />
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -121,6 +151,14 @@ const st = StyleSheet.create({
   catContainer: {
     flexGrow: 1, // Allow categories container to grow
     paddingBottom: 20, // Optional padding at the bottom
+  },
+  locationContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flexGrow: 1, // Allow location container to grow
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
   },
 });
 
