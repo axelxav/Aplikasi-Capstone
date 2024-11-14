@@ -43,6 +43,7 @@ const HomePage = () => {
   );
   const searchQuery = useSearchStore((state) => state.searchQuery);
   const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
+  const setPlaceId = usePlaceStore((state) => state.setPlaceId);
 
   let errorFetching = "";
 
@@ -75,6 +76,7 @@ const HomePage = () => {
           setSelectedTime("OTS");
           setReservationQr(data.slotAssignedQr);
           setValidationCount(false);
+          setPlaceId(38);
           router.push("/OpenBollard");
         }
       } else {
