@@ -25,6 +25,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
   const user_id = useUserStore((state) => state.userInfo.id);
   const setValidationCount = useOtsStore((state) => state.setValidationCount);
   const placeId = usePlaceStore((state) => state.placeId);
+  const setPlaceId = usePlaceStore((state) => state.setPlaceId);
 
   if (!fontsLoaded) {
     return null;
@@ -44,6 +45,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ visible, onClose }) => {
 
       if (response.ok) {
         console.log("History Updated");
+        setPlaceId(38);
       } else {
         console.log(data.error + data.message);
       }
