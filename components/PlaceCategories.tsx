@@ -56,24 +56,10 @@ const PlaceCategories = () => {
             <Text style={st.bodyText}>Hotel</Text>
           </View>
           <View style={st.singleCategory}>
-            <Pressable style={st.buttonIcon}>
-              <Ionicons name="business-outline" size={35} color="black" />
-            </Pressable>
-            <Text style={st.bodyText}>Bank</Text>
-          </View>
-        </View>
-        <View style={st.columnStyle}>
-          <View style={st.singleCategory}>
             <Pressable style={st.buttonIcon} onPress={handleHospitalCat}>
               <Ionicons name="medkit-outline" size={35} color="black" />
             </Pressable>
             <Text style={st.bodyText}>Hospital</Text>
-          </View>
-          <View style={st.singleCategory}>
-            <Pressable style={st.buttonIcon}>
-              <Ionicons name="apps-outline" size={35} color="black" />
-            </Pressable>
-            <Text style={st.bodyText}>Other</Text>
           </View>
         </View>
       </View>
