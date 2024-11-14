@@ -52,7 +52,14 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
       if (response.ok) {
         alert(data.message);
         console.log("Reservation confirmed");
-        console.log("user id: ", user_id, "selected slot: ", selectedSlot, "time af arrival: ", selectedTime);
+        console.log(
+          "user id: ",
+          user_id,
+          "selected slot: ",
+          selectedSlot,
+          "time af arrival: ",
+          selectedTime
+        );
         setReservationQr(data.reservation_qr);
         setStartCount(true);
         setValidationCount(false);
@@ -86,24 +93,25 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
           <View style={st.modalContainer}>
             <Text style={st.modalTitle}>Confirmation</Text>
             <Text style={st.modalText}>You will be reserving at:</Text>
+
             <View
               style={{
+                padding: 10,
                 flexDirection: "row",
-                marginTop: 20,
-                alignItems: "center",
+                justifyContent: "space-evenly",
               }}
             >
-              <View>
+              <View style={{ justifyContent: "space-evenly", marginRight: 15 }}>
                 <Text style={st.modalTextBold}>Place</Text>
                 <Text style={st.modalTextBold}>Parking Slot</Text>
                 <Text style={st.modalTextBold}>Arrival Time</Text>
               </View>
-              <View style={{ marginLeft: 20 }}>
+              <View style={{ justifyContent: "space-evenly", marginRight: 15 }}>
                 <Text style={st.modalTextBold}>:</Text>
                 <Text style={st.modalTextBold}>:</Text>
                 <Text style={st.modalTextBold}>:</Text>
               </View>
-              <View style={{ marginLeft: 20 }}>
+              <View style={{ justifyContent: "space-evenly" }}>
                 <Text
                   style={[st.modalText, { textDecorationLine: "underline" }]}
                 >
@@ -121,11 +129,12 @@ const ReservationModal: React.FC<ReservationModalProps> = ({
                 </Text>
               </View>
             </View>
-            <View style={{ marginTop: 20, padding: 10 }}>
+
+            <View style={{ padding: 10 }}>
               <Text style={st.modalText}>
                 Please make sure you park according to your reservation location
                 and start time. Your reservation will be forfeited if you
-                confirm your arrival XX minutes late after your start time.
+                confirm your arrival 30 minutes late after your start time.
               </Text>
             </View>
 

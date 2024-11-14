@@ -8,7 +8,7 @@ const useTestingStore = create<TestingStore>((set) => ({
   // ip rumah
   // iplocalhost: '192.168.100.121'
   
-  iplocalhost: '10.200.92.215',
+  iplocalhost: '10.72.22.124',
 }));
 
 export default useTestingStore

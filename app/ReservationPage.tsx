@@ -311,6 +311,7 @@ const st = StyleSheet.create({
   confirmationContainer: {
     position: "absolute",
     bottom: 0,
+    paddingBottom: 20,
     width: "100%",
   },
   reserveButton: {

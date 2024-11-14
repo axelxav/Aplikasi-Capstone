@@ -133,6 +133,6 @@ const st = StyleSheet.create({
   singleCategory: {
     alignItems: "center",
     marginBottom: 35,
-    marginHorizontal: 30,
+    marginHorizontal: 15,
   },
 });

@@ -1,5 +1,5 @@
 import { Tabs, Stack } from "expo-router";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
@@ -24,7 +24,7 @@ const TabsLayout = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <Tabs
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -58,6 +58,7 @@ const TabsLayout = () => {
             headerStyle: { backgroundColor: "#76ECFC" },
             headerTitleStyle: { fontFamily: "Nunito-Bold" },
             // headerShown: false,
+            // headerTransparent: true,
           }}
         />
         <Tabs.Screen
@@ -79,7 +80,7 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
-    </SafeAreaView>
+    </View>
   );
 };
 
