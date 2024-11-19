@@ -45,7 +45,7 @@ const EntranceQr = () => {
     });
 
     // Find the difference between selectedTime and current time
-    const [selectedHour, selectedMinute] = selectedTime.split(":").map(Number);
+    const [selectedHour, selectedMinute] = selectedTime.split(".").map(Number);
 
     const today = new Date();
     const currentHour = today.getHours();
@@ -69,7 +69,9 @@ const EntranceQr = () => {
       "currentMinute:",
       currentMinute,
       "difference:",
-      difference
+      difference,
+      "selected time:",
+      selectedTime
     );
   }, [navigation, placeName, selectedTime]);
 

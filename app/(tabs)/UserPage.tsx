@@ -15,6 +15,7 @@ import { useCustomFonts } from "@/hooks/useCustomFonts";
 import QrCodeModal from "@/components/QrCodeModal";
 import useUserStore from "@/store/userStore";
 import useOtsStore from "@/store/otsStore";
+import useTestingStore from "@/store/testingStore";
 
 const UserPage: React.FC = () => {
   const { fontsLoaded, onLayoutRootView } = useCustomFonts();
@@ -24,6 +25,7 @@ const UserPage: React.FC = () => {
   const user_email = useUserStore((state) => state.userInfo.user_email);
   const phone_num = useUserStore((state) => state.userInfo.phone_num);
   const setValidationCount = useOtsStore((state) => state.setValidationCount);
+  const iplocalhost = useTestingStore((state) => state.iplocalhost);
 
   if (!fontsLoaded) {
     return null;
@@ -51,6 +53,26 @@ const UserPage: React.FC = () => {
     setValidationCount(false);
     router.push("../EditPage");
   };
+
+  const handleClearData = async () => {
+    try {
+      const response = await fetch(`http://${iplocalhost}:5000/clearDatabase`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if(response.ok) {
+        alert(data.message);
+        console.log("sensor_data table has been cleared");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <SafeAreaView style={st.container} onLayout={onLayoutRootView}>
@@ -81,6 +103,9 @@ const UserPage: React.FC = () => {
         </Pressable>
         <Pressable style={st.bodyButton} onPress={handleActivity}>
           <Text style={st.bodyText}>Activity</Text>
+        </Pressable>
+        <Pressable style={st.bodyButton} onPress={handleClearData}>
+          <Text style={st.bodyText}>Clear DB</Text>
         </Pressable>
         <Pressable style={st.bodyButtonSignOut} onPress={handleSignOut}>
           <Text style={st.bodyText}>Sign Out</Text>
